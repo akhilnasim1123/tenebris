@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "544621176227",
+    "project_id": "personal-app-6d04b",
+    "storage_bucket": "personal-app-6d04b.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:544621176227:android:7086a545c3432726772616",
+        "android_client_info": {
+          "package_name": "com.example.tenebris"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCbClKzwIYUo7C3TohCMofxpOs79Y56i4U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
