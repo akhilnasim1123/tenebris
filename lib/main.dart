@@ -9,11 +9,15 @@ import 'package:tenebris/services/notification_service.dart';
 void main() async { 
   WidgetsFlutterBinding.ensureInitialized();
 
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-
-  await NotificationService().init();
+  try {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+    await NotificationService().init();
+  } catch (e) {
+    debugPrint("Initialization error: $e");
+    // Even if initialization fails, we proceed to runApp so the user doesn't see a blank screen
+  }
 
   runApp(
     MultiProvider(

@@ -24,7 +24,7 @@ class NotificationService {
       tz.setLocalLocation(tz.getLocation('Asia/Kolkata'));
     } catch (_) {}
 
-    const AndroidInitializationSettings initializationSettingsAndroid = AndroidInitializationSettings('@mipmap/ic_launcher');
+    const AndroidInitializationSettings initializationSettingsAndroid = AndroidInitializationSettings('launcher_icon');
     
     final DarwinInitializationSettings initializationSettingsDarwin = DarwinInitializationSettings(
       requestAlertPermission: true,

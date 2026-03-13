@@ -11,10 +11,11 @@ class DatabaseService {
   DatabaseService._internal();
 
   // Balance methods
-  Future<void> updateBalances(double account, double inHand) async {
+  Future<void> updateBalances(double account, double inHand, {double deposit = 0.0}) async {
     await _db.collection('settings').doc('balances').set({
       'account': account,
       'in_hand': inHand,
+      'deposit': deposit,
     });
   }
 
@@ -25,9 +26,10 @@ class DatabaseService {
       return {
         'account': (data['account'] as num?)?.toDouble() ?? 0.0,
         'in_hand': (data['in_hand'] as num?)?.toDouble() ?? 0.0,
+        'deposit': (data['deposit'] as num?)?.toDouble() ?? 0.0,
       };
     }
-    return {'account': 0.0, 'in_hand': 0.0};
+    return {'account': 0.0, 'in_hand': 0.0, 'deposit': 0.0};
   }
 
   // Transaction methods
@@ -88,8 +90,13 @@ class DatabaseService {
   }
 
   Future<List<Map<String, dynamic>>> getNotes() async {
-    final snapshot = await _db.collection('notes').orderBy('date', descending: true).get();
-    final categories = await getNoteCategories();
+    final results = await Future.wait([
+      _db.collection('notes').orderBy('date', descending: true).get(),
+      getNoteCategories(),
+    ]);
+
+    final snapshot = results[0] as QuerySnapshot<Map<String, dynamic>>;
+    final categories = results[1] as List<Map<String, dynamic>>;
     
     return snapshot.docs.map((doc) {
       final data = doc.data();
@@ -110,5 +117,41 @@ class DatabaseService {
 
   Future<void> deleteNote(String id) async {
     await _db.collection('notes').doc(id).delete();
+  }
+
+  // Personal Debts (Me feature)
+  Future<void> insertPersonalDebt(Map<String, dynamic> debt) async {
+    await _db.collection('personal_debts').add(debt);
+  }
+
+  Future<List<Map<String, dynamic>>> getPersonalDebts() async {
+    final snapshot = await _db.collection('personal_debts').orderBy('date', descending: true).get();
+    return snapshot.docs.map((doc) => {'id': doc.id, ...doc.data()}).toList();
+  }
+
+  Future<void> updatePersonalDebt(String id, Map<String, dynamic> debt) async {
+    await _db.collection('personal_debts').doc(id).update(debt);
+  }
+
+  Future<void> deletePersonalDebt(String id) async {
+    await _db.collection('personal_debts').doc(id).delete();
+  }
+
+  // Salary methods
+  Future<void> insertSalary(Map<String, dynamic> salary) async {
+    await _db.collection('salaries').add(salary);
+  }
+
+  Future<List<Map<String, dynamic>>> getSalaries() async {
+    final snapshot = await _db.collection('salaries').orderBy('date', descending: true).get();
+    return snapshot.docs.map((doc) => {'id': doc.id, ...doc.data()}).toList();
+  }
+
+  Future<void> updateSalary(String id, Map<String, dynamic> salary) async {
+    await _db.collection('salaries').doc(id).update(salary);
+  }
+
+  Future<void> deleteSalary(String id) async {
+    await _db.collection('salaries').doc(id).delete();
   }
 }

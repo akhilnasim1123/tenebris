@@ -24,6 +24,7 @@ class FullReport extends StatelessWidget {
     final Map<String, double> paymentData = {
       'account': 0.0,
       'in_hand': 0.0,
+      'deposit': 0.0,
       'credit': 0.0,
     };
     for (var tx in transactions) {
@@ -199,6 +200,7 @@ class FullReport extends StatelessWidget {
       children: [
         _buildMethodRow('Account Balance', data['account']!, Colors.blueAccent),
         _buildMethodRow('In Hand Cash', data['in_hand']!, Colors.orangeAccent),
+        _buildMethodRow('Deposit Account', data['deposit']!, const Color(0xFFE2B05E)),
         _buildMethodRow('Credit / Debt', data['credit']!, Colors.purpleAccent),
       ],
     );

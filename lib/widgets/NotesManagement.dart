@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:bootstrap_icons/bootstrap_icons.dart';
 import 'package:intl/intl.dart';
 import 'package:tenebris/providers/app_provider.dart';
+import 'package:tenebris/widgets/common/ConfirmationDialog.dart';
 
 class NotesManagement extends StatefulWidget {
   const NotesManagement({super.key});
@@ -266,37 +267,43 @@ class _NotesManagementState extends State<NotesManagement> {
         elevation: 0,
         iconTheme: const IconThemeData(color: Colors.white),
       ),
-      body: Column(
+      body: Stack(
         children: [
-          // Filter Chips
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            child: Row(
-              children: [
-                _buildFilterChip(null, 'All Categories', _selectedFilterId == null),
-                ...provider.noteCategories.map((cat) {
-                  return _buildFilterChip(cat['id'].toString(), cat['name'], _selectedFilterId == cat['id']?.toString());
-                }),
-              ],
-            ),
+          Column(
+            children: [
+              // Filter Chips
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                child: Row(
+                  children: [
+                    _buildFilterChip(null, 'All Categories', _selectedFilterId == null),
+                    ...provider.noteCategories.map((cat) {
+                      return _buildFilterChip(cat['id'].toString(), cat['name'], _selectedFilterId == cat['id']?.toString());
+                    }),
+                  ],
+                ),
+              ),
+              
+              Expanded(
+                child: notes.isEmpty
+                    ? Center(
+                        child: Text('No knowledge drops yet.', style: GoogleFonts.outfit(color: Colors.white.withOpacity(0.4))),
+                      )
+                    : ListView.builder(
+                        padding: const EdgeInsets.all(20),
+                        itemCount: notes.length,
+                        itemBuilder: (context, index) {
+                          final note = notes[index];
+                          final dt = DateTime.parse(note['date']);
+                          return _buildNoteCard(note, provider, dt);
+                        },
+                      ),
+              ),
+            ],
           ),
-          
-          Expanded(
-            child: notes.isEmpty
-                ? Center(
-                    child: Text('No knowledge drops yet.', style: GoogleFonts.outfit(color: Colors.white.withOpacity(0.4))),
-                  )
-                : ListView.builder(
-                    padding: const EdgeInsets.all(20),
-                    itemCount: notes.length,
-                    itemBuilder: (context, index) {
-                      final note = notes[index];
-                      final dt = DateTime.parse(note['date']);
-                      return _buildNoteCard(note, provider, dt);
-                    },
-                  ),
-          ),
+          if (provider.isBusy)
+            _buildLoadingOverlay(),
         ],
       ),
       floatingActionButton: FloatingActionButton(
@@ -358,7 +365,15 @@ class _NotesManagementState extends State<NotesManagement> {
                 ),
               ),
               GestureDetector(
-                onTap: () => provider.deleteNote(note['id'].toString()),
+                onTap: () {
+                  ConfirmationDialog.show(
+                    context,
+                    title: 'Delete Note',
+                    message: 'Are you sure you want to permanently delete this knowledge drop?',
+                    confirmColor: Colors.redAccent,
+                    onConfirm: () => provider.deleteNote(note['id'].toString()),
+                  );
+                },
                 child: Icon(BootstrapIcons.trash, color: Colors.grey.withOpacity(0.5), size: 16),
               ),
             ],
@@ -379,6 +394,45 @@ class _NotesManagementState extends State<NotesManagement> {
             style: GoogleFonts.outfit(color: Colors.white.withOpacity(0.3), fontSize: 11),
           ),
         ],
+      ),
+    );
+  }
+  Widget _buildLoadingOverlay() {
+    return Container(
+      color: Colors.black.withOpacity(0.7),
+      child: Center(
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 24),
+          decoration: BoxDecoration(
+            color: const Color(0xFF161616),
+            borderRadius: BorderRadius.circular(24),
+            border: Border.all(color: const Color(0xFF947A57).withOpacity(0.3)),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.5),
+                blurRadius: 40,
+                offset: const Offset(0, 10),
+              ),
+            ],
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const CircularProgressIndicator(
+                color: Color(0xFF947A57),
+                strokeWidth: 3,
+              ),
+              const SizedBox(height: 20),
+              Text(
+                'Processing...',
+                style: GoogleFonts.outfit(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
