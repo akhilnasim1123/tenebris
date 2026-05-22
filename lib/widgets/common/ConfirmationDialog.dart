@@ -13,15 +13,18 @@ class ConfirmationDialog extends StatelessWidget {
     required this.title,
     required this.message,
     this.confirmLabel = 'Confirm',
-    this.confirmColor = const Color(0xFF947A57),
+    this.confirmColor = const Color(0xFF2DD4BF),
     required this.onConfirm,
   });
 
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      backgroundColor: const Color(0xFF161616),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+      backgroundColor: const Color(0xFF121B2A),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(24),
+        side: BorderSide(color: Colors.white.withOpacity(0.06)),
+      ),
       child: Padding(
         padding: const EdgeInsets.all(24.0),
         child: Column(
@@ -30,21 +33,21 @@ class ConfirmationDialog extends StatelessWidget {
           children: [
             Text(
               title,
-              style: GoogleFonts.outfit(
-                fontSize: 22,
+              style: GoogleFonts.plusJakartaSans(
+                fontSize: 20,
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 12),
             Text(
               message,
-              style: GoogleFonts.outfit(
-                fontSize: 16,
+              style: GoogleFonts.plusJakartaSans(
+                fontSize: 15,
                 color: Colors.white.withOpacity(0.7),
               ),
             ),
-            const SizedBox(height: 32),
+            const SizedBox(height: 28),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
@@ -52,7 +55,7 @@ class ConfirmationDialog extends StatelessWidget {
                   onPressed: () => Navigator.pop(context),
                   child: Text(
                     'Cancel',
-                    style: GoogleFonts.outfit(color: Colors.grey),
+                    style: GoogleFonts.plusJakartaSans(color: Colors.grey, fontWeight: FontWeight.w600),
                   ),
                 ),
                 const SizedBox(width: 12),
@@ -64,12 +67,13 @@ class ConfirmationDialog extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: confirmColor,
                     foregroundColor: Colors.black,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                    elevation: 0,
                   ),
                   child: Text(
                     confirmLabel,
-                    style: GoogleFonts.outfit(fontWeight: FontWeight.bold),
+                    style: GoogleFonts.plusJakartaSans(fontWeight: FontWeight.bold),
                   ),
                 ),
               ],
@@ -85,7 +89,7 @@ class ConfirmationDialog extends StatelessWidget {
     required String title,
     required String message,
     String confirmLabel = 'Confirm',
-    Color confirmColor = const Color(0xFF947A57),
+    Color confirmColor = const Color(0xFF2DD4BF),
     required VoidCallback onConfirm,
   }) {
     return showDialog(

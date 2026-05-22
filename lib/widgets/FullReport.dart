@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:tenebris/providers/app_provider.dart';
+import 'package:wallet_dot/providers/app_provider.dart';
 import 'package:fl_chart/fl_chart.dart';
 
 class FullReport extends StatelessWidget {
@@ -39,9 +39,15 @@ class FullReport extends StatelessWidget {
     }
 
     return Scaffold(
-      backgroundColor: const Color(0xFF0A0A0A),
+      backgroundColor: const Color(0xFF080C14),
       appBar: AppBar(
-        title: Text('Financial Report', style: GoogleFonts.outfit(fontWeight: FontWeight.w600)),
+        title: Text(
+          'Financial Report',
+          style: GoogleFonts.plusJakartaSans(
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
         backgroundColor: Colors.transparent,
         elevation: 0,
         iconTheme: const IconThemeData(color: Colors.white),
@@ -53,15 +59,15 @@ class FullReport extends StatelessWidget {
           children: [
             _buildSummaryCard(provider),
             const SizedBox(height: 30),
-            Text('Expense Breakdown', style: GoogleFonts.outfit(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
+            Text('Expense Breakdown', style: GoogleFonts.plusJakartaSans(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
             const SizedBox(height: 20),
             _buildPieChart(categoryData),
             const SizedBox(height: 30),
-            Text('Expense by Category', style: GoogleFonts.outfit(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
+            Text('Expense by Category', style: GoogleFonts.plusJakartaSans(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
             const SizedBox(height: 20),
             _buildCategoryBreakdown(categoryData),
             const SizedBox(height: 30),
-            Text('Net by Payment Method', style: GoogleFonts.outfit(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
+            Text('Net by Payment Method', style: GoogleFonts.plusJakartaSans(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
             const SizedBox(height: 20),
             _buildPaymentMethodBreakdown(paymentData),
           ],
@@ -71,36 +77,39 @@ class FullReport extends StatelessWidget {
   }
 
   Widget _buildSummaryCard(AppProvider provider) {
+    final netSavings = provider.totalIncome - provider.totalExpense;
+    final isPositive = netSavings >= 0;
     return Container(
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
-        color: const Color(0xFF161616),
+        color: const Color(0xFF121B2A),
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: Colors.white.withOpacity(0.05)),
+        border: Border.all(color: Colors.white.withOpacity(0.06)),
       ),
       child: Column(
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              _buildStat('Total Income', provider.totalIncome, Colors.greenAccent),
-              Container(width: 1, height: 40, color: Colors.white10),
-              _buildStat('Total Expense', provider.totalExpense, Colors.redAccent),
+              _buildStat('Total Income', provider.totalIncome, const Color(0xFF10B981)),
+              Container(width: 1, height: 40, color: Colors.white.withOpacity(0.08)),
+              _buildStat('Total Expense', provider.totalExpense, const Color(0xFFF43F5E)),
             ],
           ),
           const SizedBox(height: 20),
-          const Divider(color: Colors.white10),
+          Divider(color: Colors.white.withOpacity(0.06)),
           const SizedBox(height: 20),
           Text(
             'Net Savings',
-            style: GoogleFonts.outfit(color: Colors.white38, fontSize: 14),
+            style: GoogleFonts.plusJakartaSans(color: Colors.white.withOpacity(0.4), fontSize: 12, fontWeight: FontWeight.bold),
           ),
+          const SizedBox(height: 4),
           Text(
-            '₹${(provider.totalIncome - provider.totalExpense).toStringAsFixed(2)}',
-            style: GoogleFonts.medievalSharp(
-              color: (provider.totalIncome - provider.totalExpense) >= 0 ? Colors.greenAccent : Colors.redAccent,
-              fontSize: 32,
-              fontWeight: FontWeight.bold,
+            '₹${netSavings.toStringAsFixed(2)}',
+            style: GoogleFonts.plusJakartaSans(
+              color: isPositive ? const Color(0xFF10B981) : const Color(0xFFF43F5E),
+              fontSize: 30,
+              fontWeight: FontWeight.w800,
             ),
           ),
         ],
@@ -109,12 +118,17 @@ class FullReport extends StatelessWidget {
   }
 
   Widget _buildPieChart(Map<String, double> data) {
-    if (data.isEmpty) return const SizedBox.shrink();
+    if (data.isEmpty) return _buildNoData();
     
     final List<Color> colors = [
-      Colors.redAccent, Colors.blueAccent, Colors.greenAccent, 
-      Colors.orangeAccent, Colors.purpleAccent, Colors.tealAccent,
-      Colors.pinkAccent, Colors.yellowAccent
+      const Color(0xFF2DD4BF),
+      const Color(0xFF10B981),
+      const Color(0xFF0EA5E9),
+      const Color(0xFF6366F1),
+      const Color(0xFF3B82F6),
+      const Color(0xFF06B6D4),
+      const Color(0xFF14B8A6),
+      const Color(0xFF8B5CF6),
     ];
 
     int i = 0;
@@ -144,9 +158,10 @@ class FullReport extends StatelessWidget {
           Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text('Expenses', style: GoogleFonts.outfit(color: Colors.white38, fontSize: 12)),
+              Text('Expenses', style: GoogleFonts.plusJakartaSans(color: Colors.white.withOpacity(0.4), fontSize: 12, fontWeight: FontWeight.bold)),
+              const SizedBox(height: 2),
               Text('₹${data.values.fold(0.0, (s, v) => s + v).toStringAsFixed(0)}', 
-                   style: GoogleFonts.outfit(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18)),
+                   style: GoogleFonts.plusJakartaSans(color: Colors.white, fontWeight: FontWeight.w800, fontSize: 20)),
             ],
           )
         ],
@@ -157,11 +172,11 @@ class FullReport extends StatelessWidget {
   Widget _buildStat(String label, double amount, Color color) {
     return Column(
       children: [
-        Text(label, style: GoogleFonts.outfit(color: Colors.white38, fontSize: 12)),
-        const SizedBox(height: 4),
+        Text(label, style: GoogleFonts.plusJakartaSans(color: Colors.white.withOpacity(0.4), fontSize: 12, fontWeight: FontWeight.bold)),
+        const SizedBox(height: 6),
         Text(
           '₹${amount.toStringAsFixed(0)}',
-          style: GoogleFonts.outfit(color: color, fontSize: 20, fontWeight: FontWeight.bold),
+          style: GoogleFonts.plusJakartaSans(color: color, fontSize: 18, fontWeight: FontWeight.bold),
         ),
       ],
     );
@@ -176,17 +191,17 @@ class FullReport extends StatelessWidget {
           margin: const EdgeInsets.only(bottom: 12),
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: const Color(0xFF161616),
+            color: const Color(0xFF121B2A),
             borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: Colors.white.withOpacity(0.02)),
+            border: Border.all(color: Colors.white.withOpacity(0.06)),
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(e.key, style: GoogleFonts.outfit(color: Colors.white70)),
+              Text(e.key, style: GoogleFonts.plusJakartaSans(color: Colors.white.withOpacity(0.8), fontWeight: FontWeight.w600)),
               Text(
                 '₹${e.value.toStringAsFixed(2)}',
-                style: GoogleFonts.outfit(color: Colors.white, fontWeight: FontWeight.bold),
+                style: GoogleFonts.plusJakartaSans(color: Colors.white, fontWeight: FontWeight.bold),
               ),
             ],
           ),
@@ -198,10 +213,10 @@ class FullReport extends StatelessWidget {
   Widget _buildPaymentMethodBreakdown(Map<String, double> data) {
     return Column(
       children: [
-        _buildMethodRow('Account Balance', data['account']!, Colors.blueAccent),
-        _buildMethodRow('In Hand Cash', data['in_hand']!, Colors.orangeAccent),
-        _buildMethodRow('Deposit Account', data['deposit']!, const Color(0xFFE2B05E)),
-        _buildMethodRow('Credit / Debt', data['credit']!, Colors.purpleAccent),
+        _buildMethodRow('Account Balance', data['account']!, const Color(0xFF2DD4BF)),
+        _buildMethodRow('In Hand Cash', data['in_hand']!, const Color(0xFF10B981)),
+        _buildMethodRow('Deposit Account', data['deposit']!, const Color(0xFF06B6D4)),
+        _buildMethodRow('Credit / Debt', data['credit']!, const Color(0xFFF43F5E)),
       ],
     );
   }
@@ -211,19 +226,20 @@ class FullReport extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: const Color(0xFF161616),
+        color: const Color(0xFF121B2A),
         borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: Colors.white.withOpacity(0.06)),
       ),
       child: Row(
         children: [
           Container(width: 4, height: 20, decoration: BoxDecoration(color: color, borderRadius: BorderRadius.circular(2))),
           const SizedBox(width: 12),
-          Text(label, style: GoogleFonts.outfit(color: Colors.white70)),
+          Text(label, style: GoogleFonts.plusJakartaSans(color: Colors.white.withOpacity(0.8), fontWeight: FontWeight.w600)),
           const Spacer(),
           Text(
             '₹${amount.toStringAsFixed(2)}',
-            style: GoogleFonts.medievalSharp(
-              color: amount >= 0 ? Colors.greenAccent.withOpacity(0.8) : Colors.redAccent.withOpacity(0.8),
+            style: GoogleFonts.plusJakartaSans(
+              color: amount >= 0 ? const Color(0xFF10B981) : const Color(0xFFF43F5E),
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -236,8 +252,12 @@ class FullReport extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(40),
       width: double.infinity,
-      decoration: BoxDecoration(color: const Color(0xFF161616), borderRadius: BorderRadius.circular(16)),
-      child: Center(child: Text('No data for this period', style: GoogleFonts.outfit(color: Colors.white24))),
+      decoration: BoxDecoration(
+        color: const Color(0xFF121B2A),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: Colors.white.withOpacity(0.06)),
+      ),
+      child: Center(child: Text('No data for this period', style: GoogleFonts.plusJakartaSans(color: Colors.white.withOpacity(0.2)))),
     );
   }
 }

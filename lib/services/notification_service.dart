@@ -6,7 +6,8 @@ import 'package:flutter/foundation.dart';
 
 class NotificationService {
   static final NotificationService _instance = NotificationService._internal();
-  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
 
   factory NotificationService() {
     return _instance;
@@ -15,8 +16,6 @@ class NotificationService {
   NotificationService._internal();
 
   Future<void> init() async {
-    // Local notifications are not supported on Web for this plugin.
-    // We skip initialization on Web to prevent MissingPluginException.
     if (kIsWeb) return;
 
     tz.initializeTimeZones();
@@ -24,53 +23,64 @@ class NotificationService {
       tz.setLocalLocation(tz.getLocation('Asia/Kolkata'));
     } catch (_) {}
 
-    const AndroidInitializationSettings initializationSettingsAndroid = AndroidInitializationSettings('launcher_icon');
-    
-    final DarwinInitializationSettings initializationSettingsDarwin = DarwinInitializationSettings(
-      requestAlertPermission: true,
-      requestBadgePermission: true,
-      requestSoundPermission: true,
-    );
-    
-    final InitializationSettings initializationSettings = InitializationSettings(
-      android: initializationSettingsAndroid,
-      iOS: initializationSettingsDarwin,
-      macOS: initializationSettingsDarwin,
-    );
-    
+    const AndroidInitializationSettings initializationSettingsAndroid =
+        AndroidInitializationSettings('launcher_icon');
+
+    final DarwinInitializationSettings initializationSettingsDarwin =
+        DarwinInitializationSettings(
+          requestAlertPermission: true,
+          requestBadgePermission: true,
+          requestSoundPermission: true,
+        );
+
+    final InitializationSettings initializationSettings =
+        InitializationSettings(
+          android: initializationSettingsAndroid,
+          iOS: initializationSettingsDarwin,
+          macOS: initializationSettingsDarwin,
+        );
+
     await flutterLocalNotificationsPlugin.initialize(
       settings: initializationSettings,
-      onDidReceiveNotificationResponse: (NotificationResponse response) async {},
+      onDidReceiveNotificationResponse:
+          (NotificationResponse response) async {},
     );
 
     if (Platform.isAndroid) {
-      final androidImplementation = flutterLocalNotificationsPlugin
-          .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>();
+      final androidImplementation =
+          flutterLocalNotificationsPlugin
+              .resolvePlatformSpecificImplementation<
+                AndroidFlutterLocalNotificationsPlugin
+              >();
       await androidImplementation?.requestNotificationsPermission();
       await androidImplementation?.requestExactAlarmsPermission();
     }
   }
 
-  Future<void> scheduleReminderNotification(String id, String title, DateTime scheduledDate) async {
+  Future<void> scheduleReminderNotification(
+    String id,
+    String title,
+    DateTime scheduledDate,
+  ) async {
     if (kIsWeb) return; // Skip on Web
     if (scheduledDate.isBefore(DateTime.now())) return;
-    
+
     int notificationId = id.hashCode & 0x7FFFFFFF;
 
     await flutterLocalNotificationsPlugin.zonedSchedule(
       id: notificationId,
-      title: 'Tenebris Reminder',
+      title: 'walletDot Reminder',
       body: title,
       scheduledDate: tz.TZDateTime.from(scheduledDate, tz.local),
       notificationDetails: const NotificationDetails(
         android: AndroidNotificationDetails(
-          'tenebris_reminders',
+          'wallet_dot_reminders',
           'Reminders',
           channelDescription: 'Notifications for Scheduled Reminders',
           importance: Importance.max,
           priority: Priority.high,
         ),
-        iOS: DarwinNotificationDetails()
+        iOS: DarwinNotificationDetails(),
       ),
       androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
     );

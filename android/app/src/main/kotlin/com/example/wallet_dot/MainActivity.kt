@@ -1,4 +1,4 @@
-package com.example.tenebris
+package com.example.wallet_dot
 
 import io.flutter.embedding.android.FlutterActivity
 

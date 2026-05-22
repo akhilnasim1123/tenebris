@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../services/database_service.dart';
 import '../services/notification_service.dart';
 
@@ -11,6 +12,20 @@ class AppProvider with ChangeNotifier {
     _isBusy = value;
     notifyListeners();
   }
+
+  bool _isLoggedIn = false;
+  String? _token;
+  String? _username;
+  String? _phoneNumber;
+  String? _name;
+  String? _profilePicture;
+
+  bool get isLoggedIn => _isLoggedIn;
+  String? get token => _token;
+  String? get username => _username;
+  String? get phoneNumber => _phoneNumber;
+  String? get name => _name;
+  String? get profilePicture => _profilePicture;
 
   List<Map<String, dynamic>> _transactions = [];
   List<Map<String, dynamic>> _reminders = [];
@@ -63,11 +78,161 @@ class AppProvider with ChangeNotifier {
         _transactions.where((t) => t['payment_method'] == 'credit' && t['type'] == 'income').fold(0.0, (s, i) => s + (i['amount'] as num)); 
 
   AppProvider() {
-    loadData();
+    checkSavedAuth();
+  }
+
+  Future<void> checkSavedAuth() async {
+    _setBusy(true);
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final savedToken = prefs.getString('auth_token');
+      final savedUsername = prefs.getString('username');
+      final savedPhone = prefs.getString('phone_number');
+      final savedName = prefs.getString('name');
+      final savedProfilePic = prefs.getString('profile_picture');
+
+      if (savedToken != null) {
+        _token = savedToken;
+        _username = savedUsername;
+        _phoneNumber = savedPhone;
+        _name = savedName;
+        _profilePicture = savedProfilePic;
+        _dbService.token = savedToken;
+        _isLoggedIn = true;
+        await loadData();
+      }
+    } catch (e) {
+      debugPrint("Error loading saved auth: $e");
+    } finally {
+      _setBusy(false);
+    }
+  }
+
+  Future<void> login(String username, String password) async {
+    _setBusy(true);
+    try {
+      final data = await _dbService.login(username, password);
+      _token = data['token'];
+      _username = data['username'];
+      _phoneNumber = data['phone_number'];
+      _name = data['name'];
+      _profilePicture = data['profile_picture'];
+      _isLoggedIn = true;
+
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('auth_token', _token!);
+      await prefs.setString('username', _username!);
+      await prefs.setString('phone_number', _phoneNumber!);
+      await prefs.setString('name', _name ?? '');
+      await prefs.setString('profile_picture', _profilePicture ?? '');
+
+      await loadData();
+    } finally {
+      _setBusy(false);
+    }
+  }
+
+  Future<Map<String, dynamic>> signup(String username, String password, String phoneNumber) async {
+    _setBusy(true);
+    try {
+      final result = await _dbService.signup(username, password, phoneNumber);
+      if (result.containsKey('token')) {
+        _token = result['token'];
+        _username = result['username'];
+        _phoneNumber = result['phone_number'];
+        _name = result['name'];
+        _profilePicture = result['profile_picture'];
+        _isLoggedIn = true;
+
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setString('auth_token', _token!);
+        await prefs.setString('username', _username!);
+        await prefs.setString('phone_number', _phoneNumber!);
+        await prefs.setString('name', _name ?? '');
+        await prefs.setString('profile_picture', _profilePicture ?? '');
+
+        await loadData();
+        return {'success': true};
+      }
+      return result; // Has validation details ('error', 'field', 'suggestions')
+    } finally {
+      _setBusy(false);
+    }
+  }
+
+  Future<void> logout() async {
+    _setBusy(true);
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.remove('auth_token');
+      await prefs.remove('username');
+      await prefs.remove('phone_number');
+      await prefs.remove('name');
+      await prefs.remove('profile_picture');
+
+      _token = null;
+      _username = null;
+      _phoneNumber = null;
+      _name = null;
+      _profilePicture = null;
+      _isLoggedIn = false;
+      _dbService.token = null;
+
+      _transactions = [];
+      _reminders = [];
+      _notes = [];
+      _noteCategories = [];
+      _personalDebts = [];
+      _salaries = [];
+
+      _accountBalance = 0.0;
+      _inHandBalance = 0.0;
+      _depositBalance = 0.0;
+
+      notifyListeners();
+    } finally {
+      _setBusy(false);
+    }
+  }
+
+  Future<Map<String, dynamic>> updateProfile({
+    required String name,
+    required String username,
+    String? password,
+    String? profilePicture,
+  }) async {
+    _setBusy(true);
+    try {
+      final result = await _dbService.updateProfile(
+        name: name,
+        username: username,
+        password: password,
+        profilePicture: profilePicture,
+      );
+      if (result.containsKey('error')) {
+        return result;
+      }
+
+      _username = result['username'];
+      _name = result['name'];
+      _profilePicture = result['profile_picture'];
+
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('username', _username!);
+      await prefs.setString('name', _name ?? '');
+      await prefs.setString('profile_picture', _profilePicture ?? '');
+
+      notifyListeners();
+      return {'success': true};
+    } catch (e) {
+      return {'error': e.toString()};
+    } finally {
+      _setBusy(false);
+    }
   }
 
   Future<void> loadData() async {
-    _setBusy(true);
+    if (!_isLoggedIn) return;
     try {
       final results = await Future.wait([
         _dbService.getBalances(),
@@ -90,8 +255,9 @@ class AppProvider with ChangeNotifier {
       _noteCategories = results[4] as List<Map<String, dynamic>>;
       _personalDebts = results[5] as List<Map<String, dynamic>>;
       _salaries = results[6] as List<Map<String, dynamic>>;
-    } finally {
-      _setBusy(false);
+      notifyListeners();
+    } catch (e) {
+      debugPrint("Error in loadData: $e");
     }
   }
 
@@ -284,7 +450,6 @@ class AppProvider with ChangeNotifier {
     try {
       final date = DateTime.now().toIso8601String();
       if (subtractFromSource) {
-        // 1. Expense from Source
         await _dbService.insertTransaction({
           'title': 'Deposit to Savings',
           'amount': amount,
@@ -294,7 +459,6 @@ class AppProvider with ChangeNotifier {
           'payment_method': source,
         });
       }
-      // 2. Income to Deposit
       await _dbService.insertTransaction({
         'title': 'Deposit from ${subtractFromSource ? (source == 'in_hand' ? 'Hand' : 'Account') : 'External Source'}',
         'amount': amount,
@@ -302,7 +466,7 @@ class AppProvider with ChangeNotifier {
         'date': date,
         'type': 'income',
         'payment_method': 'deposit',
-        'exclude': !subtractFromSource, // If not a transfer from our liquid assets, exclude from income reports
+        'exclude': !subtractFromSource,
       });
       await loadData();
     } finally {
@@ -327,8 +491,6 @@ class AppProvider with ChangeNotifier {
     }
   }
 
-  // Set Current Reality Balance
-  // This calculates what the 'initial' balance should be so that the 'calculated' balance matches the target
   Future<void> setCurrentAccountBalance(double target) async {
     _setBusy(true);
     try {
@@ -380,7 +542,7 @@ class AppProvider with ChangeNotifier {
         'amount': amount,
         'month': month,
         'date': date,
-        'status': 'pending', // pending, recieved
+        'status': 'pending',
       });
       await loadData();
     } finally {
@@ -391,10 +553,8 @@ class AppProvider with ChangeNotifier {
   Future<void> settleSalary(String id, double amount, String paymentMethod) async {
     _setBusy(true);
     try {
-      // 1. Mark as recieved
       await _dbService.updateSalary(id, {'status': 'recieved'});
       
-      // 2. Add as income transaction
       final salary = _salaries.firstWhere((s) => s['id'] == id);
       await addTransaction(
         'Salary Recieved: ${salary['title']} (${salary['month']})',

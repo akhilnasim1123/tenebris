@@ -1,20 +1,45 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:tenebris/providers/app_provider.dart';
+import 'package:wallet_dot/providers/app_provider.dart';
 import 'package:intl/intl.dart';
-import 'package:tenebris/widgets/common/ConfirmationDialog.dart';
+import 'package:wallet_dot/widgets/common/ConfirmationDialog.dart';
 
 class LedgerManagement extends StatelessWidget {
   const LedgerManagement({super.key});
+
+  IconData _getCategoryIcon(String category, bool isExpense) {
+    final catLower = category.toLowerCase();
+    if (catLower.contains('food')) {
+      return Icons.restaurant_rounded;
+    } else if (catLower.contains('salary') || catLower.contains('income')) {
+      return Icons.payments_outlined;
+    } else if (catLower.contains('debt') || catLower.contains('loan')) {
+      return Icons.compare_arrows_rounded;
+    } else if (catLower.contains('entertainment') || catLower.contains('fun')) {
+      return Icons.local_play_outlined;
+    } else if (isExpense) {
+      return Icons.shopping_bag_outlined;
+    } else {
+      return Icons.account_balance_wallet_outlined;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<AppProvider>(context);
 
     return Scaffold(
+      backgroundColor: const Color(0xFF080C14),
       appBar: AppBar(
-        title: Text('Ledger Management', style: GoogleFonts.medievalSharp()),
+        title: Text(
+          'Ledger Management',
+          style: GoogleFonts.plusJakartaSans(
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
+        iconTheme: const IconThemeData(color: Colors.white),
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
@@ -22,74 +47,138 @@ class LedgerManagement extends StatelessWidget {
         children: [
           provider.transactions.isEmpty
               ? Center(
-                  child: Text(
-                    'No transactions. Start spending!',
-                    style: GoogleFonts.poppins(color: Colors.grey),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.receipt_long_outlined,
+                        color: Colors.white.withOpacity(0.15),
+                        size: 64,
+                      ),
+                      const SizedBox(height: 16),
+                      Text(
+                        'No transactions. Start spending!',
+                        style: GoogleFonts.plusJakartaSans(
+                          color: Colors.grey,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ],
                   ),
                 )
               : ListView.builder(
-                  padding: EdgeInsets.all(15),
+                  padding: const EdgeInsets.all(16),
                   itemCount: provider.transactions.length,
                   itemBuilder: (context, index) {
                     final tx = provider.transactions[index];
                     final isExpense = tx['type'] == 'expense';
+                    final category = tx['category']?.toString() ?? 'General';
                     final date = DateTime.parse(tx['date']);
                     final formattedDate =
                         DateFormat('MMM dd, yyyy - hh:mm a').format(date);
+                    final accentColor =
+                        isExpense ? const Color(0xFFF43F5E) : const Color(0xFF10B981);
+                    final categoryIcon = _getCategoryIcon(category, isExpense);
 
-                    return Card(
-                      color: Colors.grey[900],
-                      margin: EdgeInsets.symmetric(vertical: 8),
-                      child: ListTile(
-                        leading: CircleAvatar(
-                          backgroundColor:
-                              isExpense ? Colors.red.withOpacity(0.2) : Colors.green.withOpacity(0.2),
-                          child: Icon(
-                            isExpense ? Icons.arrow_outward : Icons.arrow_downward,
-                            color: isExpense ? Colors.redAccent : Colors.greenAccent,
-                          ),
+                    return Container(
+                      margin: const EdgeInsets.only(bottom: 12),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF121B2A),
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(
+                          color: Colors.white.withOpacity(0.06),
+                          width: 1,
                         ),
-                        title: Text(tx['title'],
-                            style: GoogleFonts.poppins(
-                                fontWeight: FontWeight.w600, color: Colors.white)),
-                        subtitle: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(formattedDate, style: GoogleFonts.poppins(color: Colors.grey, fontSize: 12)),
-                            Text('Method: ${tx['payment_method'] ?? 'Account'}', style: GoogleFonts.poppins(color: Colors.grey.withOpacity(0.6), fontSize: 10)),
-                          ],
-                        ),
-                        trailing: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
-                              '${isExpense ? '-' : '+'} ₹${tx['amount']}',
-                              style: GoogleFonts.medievalSharp(
-                                color: isExpense ? Colors.redAccent : Colors.greenAccent,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(16),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                          decoration: BoxDecoration(
+                            border: Border(
+                              left: BorderSide(
+                                color: accentColor,
+                                width: 4,
                               ),
                             ),
-                            IconButton(
-                              icon: Icon(Icons.delete, color: Colors.grey, size: 20),
-                              onPressed: provider.isBusy ? null : () {
-                                ConfirmationDialog.show(
-                                  context,
-                                  title: 'Delete Transaction',
-                                  message: 'Are you sure you want to permanently delete this transaction?',
-                                  confirmColor: Colors.redAccent,
-                                  onConfirm: () => provider.deleteTransaction(tx['id'].toString()),
-                                );
-                              },
-                            ),
-                          ],
+                          ),
+                          child: Row(
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                  color: accentColor.withOpacity(0.08),
+                                  borderRadius: BorderRadius.circular(12),
+                                  border: Border.all(color: accentColor.withOpacity(0.12)),
+                                ),
+                                child: Icon(
+                                  categoryIcon,
+                                  color: accentColor,
+                                  size: 18,
+                                ),
+                              ),
+                              const SizedBox(width: 14),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      tx['title'] ?? 'Record',
+                                      style: GoogleFonts.plusJakartaSans(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 2),
+                                    Text(
+                                      '$formattedDate • ${tx['payment_method'] ?? 'Account'}',
+                                      style: GoogleFonts.plusJakartaSans(
+                                        color: const Color(0xFF94A3B8),
+                                        fontSize: 11,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    '${isExpense ? '-' : '+'} ₹${tx['amount']}',
+                                    style: GoogleFonts.plusJakartaSans(
+                                      color: accentColor,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 8),
+                                  IconButton(
+                                    icon: const Icon(Icons.delete_outline_rounded, color: Colors.grey, size: 20),
+                                    onPressed: provider.isBusy
+                                        ? null
+                                        : () {
+                                            ConfirmationDialog.show(
+                                              context,
+                                              title: 'Delete Transaction',
+                                              message:
+                                                  'Are you sure you want to permanently delete this transaction?',
+                                              confirmColor: const Color(0xFFF43F5E),
+                                              onConfirm: () =>
+                                                  provider.deleteTransaction(tx['id'].toString()),
+                                            );
+                                          },
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     );
                   },
                 ),
-          if (provider.isBusy)
-            _buildLoadingOverlay(),
+          if (provider.isBusy) _buildLoadingOverlay(),
         ],
       ),
     );
@@ -97,14 +186,14 @@ class LedgerManagement extends StatelessWidget {
 
   Widget _buildLoadingOverlay() {
     return Container(
-      color: Colors.black.withOpacity(0.7),
+      color: Colors.black.withOpacity(0.75),
       child: Center(
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 24),
           decoration: BoxDecoration(
-            color: const Color(0xFF161616),
+            color: const Color(0xFF121B2A),
             borderRadius: BorderRadius.circular(24),
-            border: Border.all(color: const Color(0xFF947A57).withOpacity(0.3)),
+            border: Border.all(color: const Color(0xFF2DD4BF).withOpacity(0.3)),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withOpacity(0.5),
@@ -117,15 +206,15 @@ class LedgerManagement extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               const CircularProgressIndicator(
-                color: Color(0xFF947A57),
+                color: Color(0xFF2DD4BF),
                 strokeWidth: 3,
               ),
               const SizedBox(height: 20),
               Text(
                 'Processing...',
-                style: GoogleFonts.outfit(
+                style: GoogleFonts.plusJakartaSans(
                   color: Colors.white,
-                  fontWeight: FontWeight.w600,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             ],

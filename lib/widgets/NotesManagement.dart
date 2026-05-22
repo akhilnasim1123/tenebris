@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:bootstrap_icons/bootstrap_icons.dart';
 import 'package:intl/intl.dart';
-import 'package:tenebris/providers/app_provider.dart';
-import 'package:tenebris/widgets/common/ConfirmationDialog.dart';
+import 'package:wallet_dot/providers/app_provider.dart';
+import 'package:wallet_dot/widgets/common/ConfirmationDialog.dart';
 
 class NotesManagement extends StatefulWidget {
   const NotesManagement({super.key});
@@ -29,155 +28,199 @@ class _NotesManagementState extends State<NotesManagement> {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      backgroundColor: const Color(0xFF161616),
+      backgroundColor: const Color(0xFF121B2A),
       shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
       ),
       builder: (context) {
         return StatefulBuilder(
           builder: (context, setSheetState) {
-            return Padding(
-              padding: EdgeInsets.only(
-                bottom: MediaQuery.of(context).viewInsets.bottom,
-                left: 20,
-                right: 20,
-                top: 24,
+            return Container(
+              decoration: BoxDecoration(
+                color: const Color(0xFF121B2A),
+                borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
+                border: Border(
+                  top: BorderSide(
+                    color: const Color(0xFF2DD4BF).withOpacity(0.2),
+                    width: 1.5,
+                  ),
+                ),
               ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Add Knowledge / Note',
-                    style: GoogleFonts.outfit(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
+              child: Padding(
+                padding: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).viewInsets.bottom,
+                  left: 24,
+                  right: 24,
+                  top: 28,
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Add Knowledge / Note',
+                      style: GoogleFonts.plusJakartaSans(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 20),
-                  
-                  // Category Dropdown
-                  Text('Category', style: GoogleFonts.outfit(color: Colors.grey, fontSize: 13)),
-                  const SizedBox(height: 8),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 16),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFF0A0A0A),
-                            borderRadius: BorderRadius.circular(16),
-                            border: Border.all(color: Colors.white.withOpacity(0.05)),
-                          ),
-                          child: categories.isEmpty 
-                              ? Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 16),
-                                  child: Text('No categories available', style: GoogleFonts.outfit(color: Colors.grey)),
-                                )
-                              : DropdownButtonHideUnderline(
-                                  child: DropdownButton<String>(
-                                    value: _selectedCategoryId,
-                                    isExpanded: true,
-                                    dropdownColor: const Color(0xFF161616),
-                                    items: categories.map((cat) {
-                                      return DropdownMenuItem<String>(
-                                        value: cat['id'].toString(),
-                                        child: Text(cat['name'], style: GoogleFonts.outfit(color: Colors.white)),
-                                      );
-                                    }).toList(),
-                                    onChanged: (val) {
-                                      setSheetState(() { _selectedCategoryId = val; });
-                                    },
+                    const SizedBox(height: 6),
+                    Text(
+                      'Document important information in your knowledge base.',
+                      style: GoogleFonts.plusJakartaSans(
+                        color: const Color(0xFF94A3B8),
+                        fontSize: 13,
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+                    
+                    // Category Dropdown
+                    Text('Category', style: GoogleFonts.plusJakartaSans(color: Colors.grey, fontSize: 13)),
+                    const SizedBox(height: 8),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFF0A0E17),
+                              borderRadius: BorderRadius.circular(16),
+                              border: Border.all(color: Colors.white.withOpacity(0.04)),
+                            ),
+                            child: categories.isEmpty 
+                                ? Padding(
+                                    padding: const EdgeInsets.symmetric(vertical: 16),
+                                    child: Text('No categories available', style: GoogleFonts.plusJakartaSans(color: Colors.grey)),
+                                  )
+                                : DropdownButtonHideUnderline(
+                                    child: DropdownButton<String>(
+                                      value: _selectedCategoryId,
+                                      isExpanded: true,
+                                      dropdownColor: const Color(0xFF121B2A),
+                                      items: categories.map((cat) {
+                                        return DropdownMenuItem<String>(
+                                          value: cat['id'].toString(),
+                                          child: Text(cat['name'], style: GoogleFonts.plusJakartaSans(color: Colors.white, fontSize: 15)),
+                                        );
+                                      }).toList(),
+                                      onChanged: (val) {
+                                        setSheetState(() { _selectedCategoryId = val; });
+                                      },
+                                    ),
                                   ),
-                                ),
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.pop(context);
-                          _showAddCategorySheet();
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.all(16),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFF947A57).withOpacity(0.15),
-                            borderRadius: BorderRadius.circular(16),
                           ),
-                          child: const Icon(BootstrapIcons.plus, color: Color(0xFF947A57)),
                         ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 20),
-                  
-                  // Title
-                  Text('Title', style: GoogleFonts.outfit(color: Colors.grey, fontSize: 13)),
-                  const SizedBox(height: 8),
-                  TextField(
-                    controller: _titleController,
-                    style: GoogleFonts.outfit(color: Colors.white, fontSize: 16),
-                    decoration: InputDecoration(
-                      hintText: 'e.g., SQLite FFI Logic',
-                      hintStyle: GoogleFonts.outfit(color: Colors.white.withOpacity(0.2)),
-                      filled: true,
-                      fillColor: const Color(0xFF0A0A0A),
-                      contentPadding: const EdgeInsets.all(16),
-                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: BorderSide.none),
+                        const SizedBox(width: 12),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.pop(context);
+                            _showAddCategorySheet();
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(16),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFF2DD4BF).withOpacity(0.12),
+                              borderRadius: BorderRadius.circular(16),
+                              border: Border.all(color: const Color(0xFF2DD4BF).withOpacity(0.15)),
+                            ),
+                            child: const Icon(Icons.add, color: Color(0xFF2DD4BF)),
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                  const SizedBox(height: 20),
-
-                  // Content
-                  Text('Body / Content', style: GoogleFonts.outfit(color: Colors.grey, fontSize: 13)),
-                  const SizedBox(height: 8),
-                  TextField(
-                    controller: _contentController,
-                    style: GoogleFonts.outfit(color: Colors.white, fontSize: 16),
-                    maxLines: 5,
-                    decoration: InputDecoration(
-                      hintText: 'Brain dump here...',
-                      hintStyle: GoogleFonts.outfit(color: Colors.white.withOpacity(0.2)),
-                      filled: true,
-                      fillColor: const Color(0xFF0A0A0A),
-                      contentPadding: const EdgeInsets.all(16),
-                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: BorderSide.none),
-                    ),
-                  ),
-                  const SizedBox(height: 30),
-
-                  GestureDetector(
-                    onTap: () {
-                      if (_titleController.text.isNotEmpty && _selectedCategoryId != null) {
-                        Provider.of<AppProvider>(context, listen: false).addNote(
-                          _titleController.text, 
-                          _contentController.text, 
-                          _selectedCategoryId!, 
-                          DateTime.now().toIso8601String(),
-                        );
-                        _titleController.clear();
-                        _contentController.clear();
-                        Navigator.pop(context);
-                      }
-                    },
-                    child: Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.symmetric(vertical: 18),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFF947A57),
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: Center(
-                        child: Text(
-                          'Save Knowledge',
-                          style: GoogleFonts.outfit(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 16),
+                    const SizedBox(height: 20),
+                    
+                    // Title
+                    Text('Title', style: GoogleFonts.plusJakartaSans(color: Colors.grey, fontSize: 13)),
+                    const SizedBox(height: 8),
+                    TextField(
+                      controller: _titleController,
+                      style: GoogleFonts.plusJakartaSans(color: Colors.white, fontSize: 16),
+                      decoration: InputDecoration(
+                        hintText: 'e.g., SQLite FFI Logic',
+                        hintStyle: GoogleFonts.plusJakartaSans(color: Colors.white.withOpacity(0.2)),
+                        filled: true,
+                        fillColor: const Color(0xFF0A0E17),
+                        contentPadding: const EdgeInsets.all(16),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(16),
+                          borderSide: BorderSide(color: Colors.white.withOpacity(0.04)),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(16),
+                          borderSide: const BorderSide(color: Color(0xFF2DD4BF), width: 1.2),
                         ),
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 20),
-                ],
+                    const SizedBox(height: 20),
+
+                    // Content
+                    Text('Body / Content', style: GoogleFonts.plusJakartaSans(color: Colors.grey, fontSize: 13)),
+                    const SizedBox(height: 8),
+                    TextField(
+                      controller: _contentController,
+                      style: GoogleFonts.plusJakartaSans(color: Colors.white, fontSize: 16),
+                      maxLines: 5,
+                      decoration: InputDecoration(
+                        hintText: 'Brain dump here...',
+                        hintStyle: GoogleFonts.plusJakartaSans(color: Colors.white.withOpacity(0.2)),
+                        filled: true,
+                        fillColor: const Color(0xFF0A0E17),
+                        contentPadding: const EdgeInsets.all(16),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(16),
+                          borderSide: BorderSide(color: Colors.white.withOpacity(0.04)),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(16),
+                          borderSide: const BorderSide(color: Color(0xFF2DD4BF), width: 1.2),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 30),
+
+                    GestureDetector(
+                      onTap: () {
+                        if (_titleController.text.isNotEmpty && _selectedCategoryId != null) {
+                          Provider.of<AppProvider>(context, listen: false).addNote(
+                            _titleController.text, 
+                            _contentController.text, 
+                            _selectedCategoryId!, 
+                            DateTime.now().toIso8601String(),
+                          );
+                          _titleController.clear();
+                          _contentController.clear();
+                          Navigator.pop(context);
+                        }
+                      },
+                      child: Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.symmetric(vertical: 18),
+                        decoration: BoxDecoration(
+                          gradient: const LinearGradient(
+                            colors: [Color(0xFF2DD4BF), Color(0xFF0EA5E9)],
+                          ),
+                          borderRadius: BorderRadius.circular(16),
+                          boxShadow: [
+                            BoxShadow(
+                              color: const Color(0xFF2DD4BF).withOpacity(0.25),
+                              blurRadius: 12,
+                              offset: const Offset(0, 4),
+                            ),
+                          ],
+                        ),
+                        child: Center(
+                          child: Text(
+                            'Save Knowledge',
+                            style: GoogleFonts.plusJakartaSans(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                  ],
+                ),
               ),
             );
           }
@@ -190,62 +233,96 @@ class _NotesManagementState extends State<NotesManagement> {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      backgroundColor: const Color(0xFF161616),
+      backgroundColor: const Color(0xFF121B2A),
       shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
       ),
       builder: (context) {
-        return Padding(
-          padding: EdgeInsets.only(
-            bottom: MediaQuery.of(context).viewInsets.bottom,
-            left: 20,
-            right: 20,
-            top: 24,
+        return Container(
+          decoration: BoxDecoration(
+            color: const Color(0xFF121B2A),
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
+            border: Border(
+              top: BorderSide(
+                color: const Color(0xFF2DD4BF).withOpacity(0.2),
+                width: 1.5,
+              ),
+            ),
           ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('New Category', style: GoogleFonts.outfit(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.white)),
-              const SizedBox(height: 20),
-              TextField(
-                controller: _categoryController,
-                style: GoogleFonts.outfit(color: Colors.white, fontSize: 16),
-                decoration: InputDecoration(
-                  hintText: 'e.g., Coding',
-                  hintStyle: GoogleFonts.outfit(color: Colors.white.withOpacity(0.2)),
-                  filled: true,
-                  fillColor: const Color(0xFF0A0A0A),
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: BorderSide.none),
+          child: Padding(
+            padding: EdgeInsets.only(
+              bottom: MediaQuery.of(context).viewInsets.bottom,
+              left: 24,
+              right: 24,
+              top: 28,
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('New Category',
+                    style: GoogleFonts.plusJakartaSans(
+                        fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white)),
+                const SizedBox(height: 6),
+                Text('Group your knowledge base notes.',
+                    style: GoogleFonts.plusJakartaSans(color: const Color(0xFF94A3B8), fontSize: 13)),
+                const SizedBox(height: 24),
+                TextField(
+                  controller: _categoryController,
+                  style: GoogleFonts.plusJakartaSans(color: Colors.white, fontSize: 16),
+                  decoration: InputDecoration(
+                    hintText: 'e.g., Coding',
+                    hintStyle: GoogleFonts.plusJakartaSans(color: Colors.white.withOpacity(0.2)),
+                    filled: true,
+                    fillColor: const Color(0xFF0A0E17),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(16),
+                      borderSide: BorderSide(color: Colors.white.withOpacity(0.04)),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(16),
+                      borderSide: const BorderSide(color: Color(0xFF2DD4BF), width: 1.2),
+                    ),
+                  ),
                 ),
-              ),
-              const SizedBox(height: 30),
-              GestureDetector(
-                onTap: () async {
-                  if (_categoryController.text.isNotEmpty) {
-                    await Provider.of<AppProvider>(context, listen: false).addNoteCategory(_categoryController.text);
-                    _categoryController.clear();
-                    if (context.mounted) {
-                      Navigator.pop(context);
-                      final cats = Provider.of<AppProvider>(context, listen: false).noteCategories;
-                      _showAddNoteSheet(cats); // Open add note back up
+                const SizedBox(height: 30),
+                GestureDetector(
+                  onTap: () async {
+                    if (_categoryController.text.isNotEmpty) {
+                      await Provider.of<AppProvider>(context, listen: false).addNoteCategory(_categoryController.text);
+                      _categoryController.clear();
+                      if (context.mounted) {
+                        Navigator.pop(context);
+                        final cats = Provider.of<AppProvider>(context, listen: false).noteCategories;
+                        _showAddNoteSheet(cats); // Open add note back up
+                      }
                     }
-                  }
-                },
-                child: Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.symmetric(vertical: 18),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFF947A57),
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: Center(
-                    child: Text('Create & Continue', style: GoogleFonts.outfit(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 16)),
+                  },
+                  child: Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.symmetric(vertical: 18),
+                    decoration: BoxDecoration(
+                      gradient: const LinearGradient(
+                        colors: [Color(0xFF2DD4BF), Color(0xFF0EA5E9)],
+                      ),
+                      borderRadius: BorderRadius.circular(16),
+                      boxShadow: [
+                        BoxShadow(
+                          color: const Color(0xFF2DD4BF).withOpacity(0.25),
+                          blurRadius: 12,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
+                    ),
+                    child: Center(
+                      child: Text('Create & Continue',
+                          style: GoogleFonts.plusJakartaSans(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16)),
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 20),
-            ],
+                const SizedBox(height: 20),
+              ],
+            ),
           ),
         );
       },
@@ -260,9 +337,15 @@ class _NotesManagementState extends State<NotesManagement> {
         : provider.notes.where((n) => n['category_id'] == _selectedFilterId).toList();
 
     return Scaffold(
-      backgroundColor: const Color(0xFF0A0A0A),
+      backgroundColor: const Color(0xFF080C14),
       appBar: AppBar(
-        title: Text('Knowledge Base', style: GoogleFonts.outfit(fontWeight: FontWeight.w600)),
+        title: Text(
+          'Knowledge Base',
+          style: GoogleFonts.plusJakartaSans(
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
         backgroundColor: Colors.transparent,
         elevation: 0,
         iconTheme: const IconThemeData(color: Colors.white),
@@ -288,7 +371,24 @@ class _NotesManagementState extends State<NotesManagement> {
               Expanded(
                 child: notes.isEmpty
                     ? Center(
-                        child: Text('No knowledge drops yet.', style: GoogleFonts.outfit(color: Colors.white.withOpacity(0.4))),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.collections_bookmark_outlined,
+                              color: Colors.white.withOpacity(0.15),
+                              size: 64,
+                            ),
+                            const SizedBox(height: 16),
+                            Text(
+                              'No knowledge drops yet.',
+                              style: GoogleFonts.plusJakartaSans(
+                                color: Colors.white.withOpacity(0.4),
+                                fontSize: 14,
+                              ),
+                            ),
+                          ],
+                        ),
                       )
                     : ListView.builder(
                         padding: const EdgeInsets.all(20),
@@ -306,10 +406,29 @@ class _NotesManagementState extends State<NotesManagement> {
             _buildLoadingOverlay(),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: const Color(0xFF947A57),
-        onPressed: () => _showAddNoteSheet(provider.noteCategories),
-        child: const Icon(BootstrapIcons.plus, color: Colors.black, size: 28),
+      floatingActionButton: Container(
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          gradient: const LinearGradient(
+            colors: [Color(0xFF2DD4BF), Color(0xFF0EA5E9)],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: const Color(0xFF2DD4BF).withOpacity(0.3),
+              blurRadius: 12,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: FloatingActionButton(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          highlightElevation: 0,
+          onPressed: () => _showAddNoteSheet(provider.noteCategories),
+          child: const Icon(Icons.add_rounded, color: Colors.white, size: 28),
+        ),
       ),
     );
   }
@@ -323,14 +442,19 @@ class _NotesManagementState extends State<NotesManagement> {
         margin: const EdgeInsets.only(right: 10),
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(
-          color: isSelected ? const Color(0xFF947A57) : const Color(0xFF161616),
+          gradient: isSelected
+              ? const LinearGradient(colors: [Color(0xFF2DD4BF), Color(0xFF0EA5E9)])
+              : null,
+          color: isSelected ? null : const Color(0xFF121B2A),
           borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: isSelected ? const Color(0xFF947A57) : Colors.white.withOpacity(0.05)),
+          border: Border.all(
+            color: isSelected ? Colors.transparent : Colors.white.withOpacity(0.06),
+          ),
         ),
         child: Text(
           label,
-          style: GoogleFonts.outfit(
-            color: isSelected ? Colors.black : Colors.white.withOpacity(0.6),
+          style: GoogleFonts.plusJakartaSans(
+            color: isSelected ? Colors.white : Colors.white.withOpacity(0.6),
             fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
           ),
         ),
@@ -343,9 +467,9 @@ class _NotesManagementState extends State<NotesManagement> {
       margin: const EdgeInsets.only(bottom: 16),
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: const Color(0xFF161616),
+        color: const Color(0xFF121B2A),
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: Colors.white.withOpacity(0.05)),
+        border: Border.all(color: Colors.white.withOpacity(0.06)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -356,12 +480,17 @@ class _NotesManagementState extends State<NotesManagement> {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                 decoration: BoxDecoration(
-                  color: const Color(0xFF947A57).withOpacity(0.1),
+                  color: const Color(0xFF2DD4BF).withOpacity(0.12),
                   borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color: const Color(0xFF2DD4BF).withOpacity(0.15)),
                 ),
                 child: Text(
                   note['category_name'] ?? 'Unknown',
-                  style: GoogleFonts.outfit(color: const Color(0xFF947A57), fontSize: 11, fontWeight: FontWeight.bold),
+                  style: GoogleFonts.plusJakartaSans(
+                    color: const Color(0xFF2DD4BF),
+                    fontSize: 11,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
               GestureDetector(
@@ -370,43 +499,44 @@ class _NotesManagementState extends State<NotesManagement> {
                     context,
                     title: 'Delete Note',
                     message: 'Are you sure you want to permanently delete this knowledge drop?',
-                    confirmColor: Colors.redAccent,
+                    confirmColor: const Color(0xFFF43F5E),
                     onConfirm: () => provider.deleteNote(note['id'].toString()),
                   );
                 },
-                child: Icon(BootstrapIcons.trash, color: Colors.grey.withOpacity(0.5), size: 16),
+                child: Icon(Icons.delete_outline_rounded, color: Colors.grey.withOpacity(0.5), size: 18),
               ),
             ],
           ),
           const SizedBox(height: 12),
           Text(
             note['title'],
-            style: GoogleFonts.outfit(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+            style: GoogleFonts.plusJakartaSans(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 8),
           Text(
             note['content'],
-            style: GoogleFonts.outfit(color: Colors.white.withOpacity(0.7), fontSize: 14, height: 1.5),
+            style: GoogleFonts.plusJakartaSans(color: Colors.white.withOpacity(0.7), fontSize: 14, height: 1.5),
           ),
           const SizedBox(height: 16),
           Text(
             DateFormat('MMMM dd, yyyy - hh:mm a').format(dt),
-            style: GoogleFonts.outfit(color: Colors.white.withOpacity(0.3), fontSize: 11),
+            style: GoogleFonts.plusJakartaSans(color: Colors.white.withOpacity(0.3), fontSize: 11),
           ),
         ],
       ),
     );
   }
+
   Widget _buildLoadingOverlay() {
     return Container(
-      color: Colors.black.withOpacity(0.7),
+      color: Colors.black.withOpacity(0.75),
       child: Center(
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 24),
           decoration: BoxDecoration(
-            color: const Color(0xFF161616),
+            color: const Color(0xFF121B2A),
             borderRadius: BorderRadius.circular(24),
-            border: Border.all(color: const Color(0xFF947A57).withOpacity(0.3)),
+            border: Border.all(color: const Color(0xFF2DD4BF).withOpacity(0.3)),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withOpacity(0.5),
@@ -419,15 +549,15 @@ class _NotesManagementState extends State<NotesManagement> {
             mainAxisSize: MainAxisSize.min,
             children: [
               const CircularProgressIndicator(
-                color: Color(0xFF947A57),
+                color: Color(0xFF2DD4BF),
                 strokeWidth: 3,
               ),
               const SizedBox(height: 20),
               Text(
                 'Processing...',
-                style: GoogleFonts.outfit(
+                style: GoogleFonts.plusJakartaSans(
                   color: Colors.white,
-                  fontWeight: FontWeight.w600,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             ],

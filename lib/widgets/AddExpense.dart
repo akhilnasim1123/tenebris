@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:bootstrap_icons/bootstrap_icons.dart';
-import 'package:tenebris/providers/app_provider.dart';
-import 'package:tenebris/widgets/common/ConfirmationDialog.dart';
+import 'package:wallet_dot/providers/app_provider.dart';
+import 'package:wallet_dot/widgets/common/ConfirmationDialog.dart';
+
 
 class AddExpense extends StatefulWidget {
   const AddExpense({super.key});
@@ -28,9 +28,9 @@ class _AddExpenseState extends State<AddExpense> {
   Widget build(BuildContext context) {
     final provider = Provider.of<AppProvider>(context);
     return Scaffold(
-      backgroundColor: const Color(0xFF0A0A0A),
+      backgroundColor: const Color(0xFF080C14),
       appBar: AppBar(
-        title: Text('Add Record', style: GoogleFonts.outfit(fontWeight: FontWeight.w600)),
+        title: Text('Add Record', style: GoogleFonts.plusJakartaSans(fontWeight: FontWeight.w600)),
         backgroundColor: Colors.transparent,
         elevation: 0,
         iconTheme: const IconThemeData(color: Colors.white),
@@ -47,7 +47,7 @@ class _AddExpenseState extends State<AddExpense> {
                   Container(
                     padding: const EdgeInsets.all(6),
                     decoration: BoxDecoration(
-                      color: const Color(0xFF161616),
+                      color: const Color(0xFF121B2A),
                       borderRadius: BorderRadius.circular(20),
                       border: Border.all(color: Colors.white.withOpacity(0.05)),
                     ),
@@ -67,11 +67,11 @@ class _AddExpenseState extends State<AddExpense> {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Icon(BootstrapIcons.arrow_up_right, color: _type == 'expense' ? Colors.redAccent : Colors.grey, size: 16),
+                                  Icon(Icons.north_east, color: _type == 'expense' ? Colors.redAccent : Colors.grey, size: 16),
                                   const SizedBox(width: 8),
                                   Text(
                                     'Expense',
-                                    style: GoogleFonts.outfit(
+                                    style: GoogleFonts.plusJakartaSans(
                                       color: _type == 'expense' ? Colors.redAccent : Colors.grey,
                                       fontWeight: FontWeight.w600,
                                     ),
@@ -95,11 +95,11 @@ class _AddExpenseState extends State<AddExpense> {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Icon(BootstrapIcons.arrow_down_left, color: _type == 'income' ? Colors.greenAccent : Colors.grey, size: 16),
+                                  Icon(Icons.south_west, color: _type == 'income' ? Colors.greenAccent : Colors.grey, size: 16),
                                   const SizedBox(width: 8),
                                   Text(
                                     'Income',
-                                    style: GoogleFonts.outfit(
+                                    style: GoogleFonts.plusJakartaSans(
                                       color: _type == 'income' ? Colors.greenAccent : Colors.grey,
                                       fontWeight: FontWeight.w600,
                                     ),
@@ -115,53 +115,53 @@ class _AddExpenseState extends State<AddExpense> {
                   const SizedBox(height: 30),
 
                   // Title Field
-                  Text('Title / Description', style: GoogleFonts.outfit(color: Colors.grey, fontSize: 13)),
+                  Text('Title / Description', style: GoogleFonts.plusJakartaSans(color: Colors.grey, fontSize: 13)),
                   const SizedBox(height: 8),
                   TextField(
                     controller: _titleController,
-                    style: GoogleFonts.outfit(color: Colors.white, fontSize: 18),
+                    style: GoogleFonts.plusJakartaSans(color: Colors.white, fontSize: 18),
                     decoration: InputDecoration(
                       hintText: 'e.g., Grocery Shopping',
-                      hintStyle: GoogleFonts.outfit(color: Colors.white.withOpacity(0.2)),
+                      hintStyle: GoogleFonts.plusJakartaSans(color: Colors.white.withOpacity(0.2)),
                       filled: true,
-                      fillColor: const Color(0xFF161616),
+                      fillColor: const Color(0xFF121B2A),
                       contentPadding: const EdgeInsets.all(20),
                       border: OutlineInputBorder(borderRadius: BorderRadius.circular(20), borderSide: BorderSide.none),
                       enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(20), borderSide: BorderSide(color: Colors.white.withOpacity(0.05))),
-                      focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(20), borderSide: BorderSide(color: const Color(0xFF947A57))),
+                      focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(20), borderSide: const BorderSide(color: Color(0xFF2DD4BF))),
                     ),
                   ),
                   const SizedBox(height: 24),
 
                   // Amount Field
-                  Text('Amount', style: GoogleFonts.outfit(color: Colors.grey, fontSize: 13)),
+                  Text('Amount', style: GoogleFonts.plusJakartaSans(color: Colors.grey, fontSize: 13)),
                   const SizedBox(height: 8),
                   TextField(
                     controller: _amountController,
                     keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                    style: GoogleFonts.medievalSharp(color: Colors.white, fontSize: 24),
+                    style: GoogleFonts.plusJakartaSans(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
                     decoration: InputDecoration(
                       hintText: '0.00',
-                      hintStyle: GoogleFonts.medievalSharp(color: Colors.white.withOpacity(0.2)),
+                      hintStyle: GoogleFonts.plusJakartaSans(color: Colors.white.withOpacity(0.2), fontWeight: FontWeight.bold),
                       prefixIcon: const Icon(Icons.currency_rupee, color: Colors.grey),
                       filled: true,
-                      fillColor: const Color(0xFF161616),
+                      fillColor: const Color(0xFF121B2A),
                       contentPadding: const EdgeInsets.all(20),
                       border: OutlineInputBorder(borderRadius: BorderRadius.circular(20), borderSide: BorderSide.none),
                       enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(20), borderSide: BorderSide(color: Colors.white.withOpacity(0.05))),
-                      focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(20), borderSide: BorderSide(color: const Color(0xFF947A57))),
+                      focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(20), borderSide: const BorderSide(color: Color(0xFF2DD4BF))),
                     ),
                   ),
                   const SizedBox(height: 24),
 
                   // Category Selector
                   if (_type == 'expense') ...[
-                    Text('Category', style: GoogleFonts.outfit(color: Colors.grey, fontSize: 13)),
+                    Text('Category', style: GoogleFonts.plusJakartaSans(color: Colors.grey, fontSize: 13)),
                     const SizedBox(height: 8),
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                       decoration: BoxDecoration(
-                        color: const Color(0xFF161616),
+                        color: const Color(0xFF121B2A),
                         borderRadius: BorderRadius.circular(20),
                         border: Border.all(color: Colors.white.withOpacity(0.05)),
                       ),
@@ -169,12 +169,12 @@ class _AddExpenseState extends State<AddExpense> {
                         child: DropdownButton<String>(
                           value: _category == 'Income' ? 'Food' : _category,
                           isExpanded: true,
-                          dropdownColor: const Color(0xFF161616),
+                          dropdownColor: const Color(0xFF121B2A),
                           icon: const Icon(Icons.arrow_drop_down, color: Colors.grey),
                           items: _categories.where((c) => c != 'Income').map((String category) {
                             return DropdownMenuItem<String>(
                               value: category,
-                              child: Text(category, style: GoogleFonts.outfit(color: Colors.white, fontSize: 16)),
+                              child: Text(category, style: GoogleFonts.plusJakartaSans(color: Colors.white, fontSize: 16)),
                             );
                           }).toList(),
                           onChanged: (String? newValue) {
@@ -186,12 +186,12 @@ class _AddExpenseState extends State<AddExpense> {
                   ],
                   const SizedBox(height: 24),
                   // Payment Method Selector
-                  Text('Payment Method', style: GoogleFonts.outfit(color: Colors.grey, fontSize: 13)),
+                  Text('Payment Method', style: GoogleFonts.plusJakartaSans(color: Colors.grey, fontSize: 13)),
                   const SizedBox(height: 8),
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                     decoration: BoxDecoration(
-                      color: const Color(0xFF161616),
+                      color: const Color(0xFF121B2A),
                       borderRadius: BorderRadius.circular(20),
                       border: Border.all(color: Colors.white.withOpacity(0.05)),
                     ),
@@ -199,7 +199,7 @@ class _AddExpenseState extends State<AddExpense> {
                       child: DropdownButton<String>(
                         value: _paymentMethod,
                         isExpanded: true,
-                        dropdownColor: const Color(0xFF161616),
+                        dropdownColor: const Color(0xFF121B2A),
                         icon: const Icon(Icons.arrow_drop_down, color: Colors.grey),
                         items: const [
                           DropdownMenuItem(value: 'account', child: Text('Account Balance')),
@@ -221,15 +221,15 @@ class _AddExpenseState extends State<AddExpense> {
                     child: Container(
                       padding: const EdgeInsets.all(20),
                       decoration: BoxDecoration(
-                        color: const Color(0xFF161616),
+                        color: const Color(0xFF121B2A),
                         borderRadius: BorderRadius.circular(20),
-                        border: Border.all(color: _excludeFromBalance ? const Color(0xFF947A57).withOpacity(0.3) : Colors.white.withOpacity(0.05)),
+                        border: Border.all(color: _excludeFromBalance ? const Color(0xFF2DD4BF).withOpacity(0.3) : Colors.white.withOpacity(0.05)),
                       ),
                       child: Row(
                         children: [
                           Icon(
-                            _excludeFromBalance ? BootstrapIcons.eye_slash : BootstrapIcons.eye,
-                            color: _excludeFromBalance ? const Color(0xFF947A57) : Colors.grey,
+                            _excludeFromBalance ? Icons.visibility_off_outlined : Icons.visibility_outlined,
+                            color: _excludeFromBalance ? const Color(0xFF2DD4BF) : Colors.grey,
                           ),
                           const SizedBox(width: 12),
                           Expanded(
@@ -238,11 +238,11 @@ class _AddExpenseState extends State<AddExpense> {
                               children: [
                                 Text(
                                   'Affect Balance Calculation?',
-                                  style: GoogleFonts.outfit(color: Colors.white, fontWeight: FontWeight.w600),
+                                  style: GoogleFonts.plusJakartaSans(color: Colors.white, fontWeight: FontWeight.w600),
                                 ),
                                 Text(
                                   _excludeFromBalance ? 'Record only (Doesn\'t change balance)' : 'Normal (Updates the balance)',
-                                  style: GoogleFonts.outfit(color: Colors.grey, fontSize: 12),
+                                  style: GoogleFonts.plusJakartaSans(color: Colors.grey, fontSize: 12),
                                 ),
                               ],
                             ),
@@ -250,7 +250,7 @@ class _AddExpenseState extends State<AddExpense> {
                           Switch(
                             value: !_excludeFromBalance,
                             onChanged: (val) => setState(() => _excludeFromBalance = !val),
-                            activeColor: const Color(0xFF947A57),
+                            activeColor: const Color(0xFF2DD4BF),
                           ),
                         ],
                       ),
@@ -290,13 +290,13 @@ class _AddExpenseState extends State<AddExpense> {
                         gradient: LinearGradient(
                           colors: provider.isBusy 
                             ? [Colors.grey, Colors.grey] 
-                            : [const Color(0xFF947A57), const Color(0xFF7D6442)],
+                            : [const Color(0xFF2DD4BF), const Color(0xFF0EA5E9)],
                         ),
                         borderRadius: BorderRadius.circular(20),
                         boxShadow: [
                           if (!provider.isBusy)
                             BoxShadow(
-                              color: const Color(0xFF947A57).withOpacity(0.3),
+                              color: const Color(0xFF2DD4BF).withOpacity(0.3),
                               blurRadius: 15,
                               offset: const Offset(0, 8),
                             ),
@@ -311,7 +311,7 @@ class _AddExpenseState extends State<AddExpense> {
                             )
                           : Text(
                               'Save Record',
-                              style: GoogleFonts.outfit(
+                              style: GoogleFonts.plusJakartaSans(
                                 color: Colors.black,
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
@@ -339,9 +339,9 @@ class _AddExpenseState extends State<AddExpense> {
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 24),
           decoration: BoxDecoration(
-            color: const Color(0xFF161616),
+            color: const Color(0xFF121B2A),
             borderRadius: BorderRadius.circular(24),
-            border: Border.all(color: const Color(0xFF947A57).withOpacity(0.3)),
+            border: Border.all(color: const Color(0xFF2DD4BF).withOpacity(0.3)),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withOpacity(0.5),
@@ -354,13 +354,13 @@ class _AddExpenseState extends State<AddExpense> {
             mainAxisSize: MainAxisSize.min,
             children: [
               const CircularProgressIndicator(
-                color: Color(0xFF947A57),
+                color: Color(0xFF2DD4BF),
                 strokeWidth: 3,
               ),
               const SizedBox(height: 20),
               Text(
                 'Processing...',
-                style: GoogleFonts.outfit(
+                style: GoogleFonts.plusJakartaSans(
                   color: Colors.white,
                   fontWeight: FontWeight.w600,
                 ),
