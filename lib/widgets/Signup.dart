@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:wallet_dot/providers/app_provider.dart';
 import 'package:wallet_dot/services/database_service.dart';
 import 'package:wallet_dot/widgets/Home.dart';
+import 'package:wallet_dot/widgets/common/GradientScaffold.dart';
 
 class Signup extends StatefulWidget {
   const Signup({super.key});
@@ -177,8 +178,7 @@ class _SignupState extends State<Signup> {
   Widget build(BuildContext context) {
     final provider = Provider.of<AppProvider>(context);
 
-    return Scaffold(
-      backgroundColor: const Color(0xFF080C14),
+    return GradientScaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -195,7 +195,7 @@ class _SignupState extends State<Signup> {
               height: 320,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: const Color(0xFF2DD4BF).withOpacity(0.04),
+                color: const Color(0xFFFED7B8).withOpacity(0.04),
               ),
               child: BackdropFilter(
                 filter: ImageFilter.blur(sigmaX: 90, sigmaY: 90),
@@ -211,7 +211,7 @@ class _SignupState extends State<Signup> {
               height: 320,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: const Color(0xFF0EA5E9).withOpacity(0.03),
+                color: const Color(0xFF677DAA).withOpacity(0.03),
               ),
               child: BackdropFilter(
                 filter: ImageFilter.blur(sigmaX: 90, sigmaY: 90),
@@ -248,7 +248,7 @@ class _SignupState extends State<Signup> {
                           style: GoogleFonts.plusJakartaSans(
                             fontSize: 36,
                             fontWeight: FontWeight.w800,
-                            color: const Color(0xFF2DD4BF),
+                            color: const Color(0xFFFED7B8),
                             letterSpacing: -0.5,
                           ),
                         ),
@@ -259,7 +259,7 @@ class _SignupState extends State<Signup> {
                       'Create a new account to get started',
                       textAlign: TextAlign.center,
                       style: GoogleFonts.plusJakartaSans(
-                        color: const Color(0xFF94A3B8),
+                        color: const Color(0xFF677DAA),
                         fontSize: 14,
                       ),
                     ),
@@ -273,10 +273,10 @@ class _SignupState extends State<Signup> {
                         child: Container(
                           padding: const EdgeInsets.all(28.0),
                           decoration: BoxDecoration(
-                            color: const Color(0xFF121B2A).withOpacity(0.65),
+                            color: const Color(0xFF0A1F30).withOpacity(0.65),
                             borderRadius: BorderRadius.circular(24),
                             border: Border.all(
-                                color: const Color(0xFF2DD4BF).withOpacity(0.15),
+                                color: const Color(0xFFFED7B8).withOpacity(0.15),
                                 width: 1.0),
                           ),
                           child: Column(
@@ -311,7 +311,7 @@ class _SignupState extends State<Signup> {
                               Text(
                                 'USERNAME',
                                 style: GoogleFonts.plusJakartaSans(
-                                  color: const Color(0xFF2DD4BF),
+                                  color: const Color(0xFFFED7B8),
                                   fontSize: 11,
                                   fontWeight: FontWeight.bold,
                                   letterSpacing: 1.5,
@@ -326,10 +326,10 @@ class _SignupState extends State<Signup> {
                                   hintText: 'Choose a unique username',
                                   hintStyle: GoogleFonts.plusJakartaSans(color: Colors.white.withOpacity(0.18)),
                                   filled: true,
-                                  fillColor: const Color(0xFF0A0E17),
+                                  fillColor: const Color(0xFF02101C),
                                   prefixIcon: const Icon(Icons.person_outline_rounded),
                                   prefixIconColor: WidgetStateColor.resolveWith((states) {
-                                    if (states.contains(WidgetState.focused)) return const Color(0xFF2DD4BF);
+                                    if (states.contains(WidgetState.focused)) return const Color(0xFFFED7B8);
                                     return Colors.white.withOpacity(0.3);
                                   }),
                                   suffixIcon: _checkingUsername
@@ -338,7 +338,7 @@ class _SignupState extends State<Signup> {
                                           child: SizedBox(
                                             width: 16,
                                             height: 16,
-                                            child: CircularProgressIndicator(color: Color(0xFF2DD4BF), strokeWidth: 2),
+                                            child: CircularProgressIndicator(color: Color(0xFFFED7B8), strokeWidth: 2),
                                           ),
                                         )
                                       : null,
@@ -353,7 +353,7 @@ class _SignupState extends State<Signup> {
                                   ),
                                   focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(16),
-                                    borderSide: const BorderSide(color: Color(0xFF2DD4BF), width: 1.2),
+                                    borderSide: const BorderSide(color: Color(0xFFFED7B8), width: 1.2),
                                   ),
                                   errorText: _usernameError,
                                 ),
@@ -390,7 +390,7 @@ class _SignupState extends State<Signup> {
                                         child: ChoiceChip(
                                           label: Text(suggestion),
                                           labelStyle: GoogleFonts.plusJakartaSans(
-                                            color: const Color(0xFF2DD4BF),
+                                            color: const Color(0xFFFED7B8),
                                             fontWeight: FontWeight.bold,
                                             fontSize: 12,
                                           ),
@@ -403,8 +403,8 @@ class _SignupState extends State<Signup> {
                                             });
                                             FocusScope.of(context).unfocus();
                                           },
-                                          backgroundColor: const Color(0xFF2DD4BF).withOpacity(0.1),
-                                          side: const BorderSide(color: Color(0xFF2DD4BF), width: 1),
+                                          backgroundColor: const Color(0xFFFED7B8).withOpacity(0.1),
+                                          side: const BorderSide(color: Color(0xFFFED7B8), width: 1),
                                           shape: RoundedRectangleBorder(
                                             borderRadius: BorderRadius.circular(12),
                                           ),
@@ -420,7 +420,7 @@ class _SignupState extends State<Signup> {
                               Text(
                                 'PASSWORD',
                                 style: GoogleFonts.plusJakartaSans(
-                                  color: const Color(0xFF2DD4BF),
+                                  color: const Color(0xFFFED7B8),
                                   fontSize: 11,
                                   fontWeight: FontWeight.bold,
                                   letterSpacing: 1.5,
@@ -435,10 +435,10 @@ class _SignupState extends State<Signup> {
                                   hintText: 'Choose a strong password',
                                   hintStyle: GoogleFonts.plusJakartaSans(color: Colors.white.withOpacity(0.18)),
                                   filled: true,
-                                  fillColor: const Color(0xFF0A0E17),
+                                  fillColor: const Color(0xFF02101C),
                                   prefixIcon: const Icon(Icons.lock_outline_rounded),
                                   prefixIconColor: WidgetStateColor.resolveWith((states) {
-                                    if (states.contains(WidgetState.focused)) return const Color(0xFF2DD4BF);
+                                    if (states.contains(WidgetState.focused)) return const Color(0xFFFED7B8);
                                     return Colors.white.withOpacity(0.3);
                                   }),
                                   contentPadding: const EdgeInsets.symmetric(horizontal: 18, vertical: 18),
@@ -452,7 +452,7 @@ class _SignupState extends State<Signup> {
                                   ),
                                   focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(16),
-                                    borderSide: const BorderSide(color: Color(0xFF2DD4BF), width: 1.2),
+                                    borderSide: const BorderSide(color: Color(0xFFFED7B8), width: 1.2),
                                   ),
                                 ),
                                 validator: (value) {
@@ -471,7 +471,7 @@ class _SignupState extends State<Signup> {
                               Text(
                                 'PHONE NUMBER',
                                 style: GoogleFonts.plusJakartaSans(
-                                  color: const Color(0xFF2DD4BF),
+                                  color: const Color(0xFFFED7B8),
                                   fontSize: 11,
                                   fontWeight: FontWeight.bold,
                                   letterSpacing: 1.5,
@@ -487,10 +487,10 @@ class _SignupState extends State<Signup> {
                                   hintText: 'Enter your phone number',
                                   hintStyle: GoogleFonts.plusJakartaSans(color: Colors.white.withOpacity(0.18)),
                                   filled: true,
-                                  fillColor: const Color(0xFF0A0E17),
+                                  fillColor: const Color(0xFF02101C),
                                   prefixIcon: const Icon(Icons.phone_outlined),
                                   prefixIconColor: WidgetStateColor.resolveWith((states) {
-                                    if (states.contains(WidgetState.focused)) return const Color(0xFF2DD4BF);
+                                    if (states.contains(WidgetState.focused)) return const Color(0xFFFED7B8);
                                     return Colors.white.withOpacity(0.3);
                                   }),
                                   suffixIcon: _checkingPhone
@@ -499,7 +499,7 @@ class _SignupState extends State<Signup> {
                                           child: SizedBox(
                                             width: 16,
                                             height: 16,
-                                            child: CircularProgressIndicator(color: Color(0xFF2DD4BF), strokeWidth: 2),
+                                            child: CircularProgressIndicator(color: Color(0xFFFED7B8), strokeWidth: 2),
                                           ),
                                         )
                                       : null,
@@ -514,7 +514,7 @@ class _SignupState extends State<Signup> {
                                   ),
                                   focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(16),
-                                    borderSide: const BorderSide(color: Color(0xFF2DD4BF), width: 1.2),
+                                    borderSide: const BorderSide(color: Color(0xFFFED7B8), width: 1.2),
                                   ),
                                   errorText: _phoneError,
                                 ),
@@ -554,7 +554,7 @@ class _SignupState extends State<Signup> {
                           child: Text(
                             'Sign In',
                             style: GoogleFonts.plusJakartaSans(
-                              color: const Color(0xFF2DD4BF),
+                              color: const Color(0xFFFED7B8),
                               fontWeight: FontWeight.bold,
                               decoration: TextDecoration.underline,
                             ),
@@ -603,13 +603,13 @@ class _InteractiveSignupButtonState extends State<_InteractiveSignupButton> {
             gradient: LinearGradient(
               colors: widget.isBusy
                   ? [Colors.grey.withOpacity(0.5), Colors.grey.withOpacity(0.3)]
-                  : [const Color(0xFF2DD4BF), const Color(0xFF0EA5E9)],
+                  : [const Color(0xFFFED7B8), const Color(0xFF677DAA)],
             ),
             borderRadius: BorderRadius.circular(16),
             boxShadow: [
               if (!widget.isBusy)
                 BoxShadow(
-                  color: const Color(0xFF2DD4BF).withOpacity(0.25),
+                  color: const Color(0xFFFED7B8).withOpacity(0.25),
                   blurRadius: 15,
                   offset: const Offset(0, 5),
                 ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_dot/providers/app_provider.dart';
+import 'package:wallet_dot/widgets/common/GradientScaffold.dart';
 import 'package:fl_chart/fl_chart.dart';
 
 class FullReport extends StatelessWidget {
@@ -38,8 +39,7 @@ class FullReport extends StatelessWidget {
       }
     }
 
-    return Scaffold(
-      backgroundColor: const Color(0xFF080C14),
+    return GradientScaffold(
       appBar: AppBar(
         title: Text(
           'Financial Report',
@@ -52,7 +52,7 @@ class FullReport extends StatelessWidget {
         elevation: 0,
         iconTheme: const IconThemeData(color: Colors.white),
       ),
-      body: SingleChildScrollView(
+      body: SafeArea(child: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -72,7 +72,7 @@ class FullReport extends StatelessWidget {
             _buildPaymentMethodBreakdown(paymentData),
           ],
         ),
-      ),
+      )),
     );
   }
 
@@ -82,7 +82,7 @@ class FullReport extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
-        color: const Color(0xFF121B2A),
+        color: const Color(0xFF0A1F30),
         borderRadius: BorderRadius.circular(24),
         border: Border.all(color: Colors.white.withOpacity(0.06)),
       ),
@@ -121,9 +121,9 @@ class FullReport extends StatelessWidget {
     if (data.isEmpty) return _buildNoData();
     
     final List<Color> colors = [
-      const Color(0xFF2DD4BF),
+      const Color(0xFFFED7B8),
       const Color(0xFF10B981),
-      const Color(0xFF0EA5E9),
+      const Color(0xFF677DAA),
       const Color(0xFF6366F1),
       const Color(0xFF3B82F6),
       const Color(0xFF06B6D4),
@@ -191,7 +191,7 @@ class FullReport extends StatelessWidget {
           margin: const EdgeInsets.only(bottom: 12),
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: const Color(0xFF121B2A),
+            color: const Color(0xFF0A1F30),
             borderRadius: BorderRadius.circular(16),
             border: Border.all(color: Colors.white.withOpacity(0.06)),
           ),
@@ -213,7 +213,7 @@ class FullReport extends StatelessWidget {
   Widget _buildPaymentMethodBreakdown(Map<String, double> data) {
     return Column(
       children: [
-        _buildMethodRow('Account Balance', data['account']!, const Color(0xFF2DD4BF)),
+        _buildMethodRow('Account Balance', data['account']!, const Color(0xFFFED7B8)),
         _buildMethodRow('In Hand Cash', data['in_hand']!, const Color(0xFF10B981)),
         _buildMethodRow('Deposit Account', data['deposit']!, const Color(0xFF06B6D4)),
         _buildMethodRow('Credit / Debt', data['credit']!, const Color(0xFFF43F5E)),
@@ -226,7 +226,7 @@ class FullReport extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: const Color(0xFF121B2A),
+        color: const Color(0xFF0A1F30),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: Colors.white.withOpacity(0.06)),
       ),
@@ -253,7 +253,7 @@ class FullReport extends StatelessWidget {
       padding: const EdgeInsets.all(40),
       width: double.infinity,
       decoration: BoxDecoration(
-        color: const Color(0xFF121B2A),
+        color: const Color(0xFF0A1F30),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: Colors.white.withOpacity(0.06)),
       ),

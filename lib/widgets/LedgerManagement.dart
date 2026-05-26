@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_dot/providers/app_provider.dart';
+import 'package:wallet_dot/widgets/common/GradientScaffold.dart';
 import 'package:intl/intl.dart';
 import 'package:wallet_dot/widgets/common/ConfirmationDialog.dart';
 
@@ -29,8 +30,7 @@ class LedgerManagement extends StatelessWidget {
   Widget build(BuildContext context) {
     final provider = Provider.of<AppProvider>(context);
 
-    return Scaffold(
-      backgroundColor: const Color(0xFF080C14),
+    return GradientScaffold(
       appBar: AppBar(
         title: Text(
           'Ledger Management',
@@ -43,10 +43,11 @@ class LedgerManagement extends StatelessWidget {
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
-      body: Stack(
-        children: [
-          provider.transactions.isEmpty
-              ? Center(
+      body: SafeArea(
+        child: Stack(
+          children: [
+            provider.transactions.isEmpty
+                ? Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -66,7 +67,7 @@ class LedgerManagement extends StatelessWidget {
                     ],
                   ),
                 )
-              : ListView.builder(
+                : ListView.builder(
                   padding: const EdgeInsets.all(16),
                   itemCount: provider.transactions.length,
                   itemBuilder: (context, index) {
@@ -74,16 +75,19 @@ class LedgerManagement extends StatelessWidget {
                     final isExpense = tx['type'] == 'expense';
                     final category = tx['category']?.toString() ?? 'General';
                     final date = DateTime.parse(tx['date']);
-                    final formattedDate =
-                        DateFormat('MMM dd, yyyy - hh:mm a').format(date);
+                    final formattedDate = DateFormat(
+                      'MMM dd, yyyy - hh:mm a',
+                    ).format(date);
                     final accentColor =
-                        isExpense ? const Color(0xFFF43F5E) : const Color(0xFF10B981);
+                        isExpense
+                            ? const Color(0xFFF43F5E)
+                            : const Color(0xFF10B981);
                     final categoryIcon = _getCategoryIcon(category, isExpense);
 
                     return Container(
                       margin: const EdgeInsets.only(bottom: 12),
                       decoration: BoxDecoration(
-                        color: const Color(0xFF121B2A),
+                        color: const Color(0xFF0A1F30),
                         borderRadius: BorderRadius.circular(16),
                         border: Border.all(
                           color: Colors.white.withOpacity(0.06),
@@ -93,13 +97,13 @@ class LedgerManagement extends StatelessWidget {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(16),
                         child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 14,
+                          ),
                           decoration: BoxDecoration(
                             border: Border(
-                              left: BorderSide(
-                                color: accentColor,
-                                width: 4,
-                              ),
+                              left: BorderSide(color: accentColor, width: 4),
                             ),
                           ),
                           child: Row(
@@ -109,7 +113,9 @@ class LedgerManagement extends StatelessWidget {
                                 decoration: BoxDecoration(
                                   color: accentColor.withOpacity(0.08),
                                   borderRadius: BorderRadius.circular(12),
-                                  border: Border.all(color: accentColor.withOpacity(0.12)),
+                                  border: Border.all(
+                                    color: accentColor.withOpacity(0.12),
+                                  ),
                                 ),
                                 child: Icon(
                                   categoryIcon,
@@ -134,7 +140,7 @@ class LedgerManagement extends StatelessWidget {
                                     Text(
                                       '$formattedDate • ${tx['payment_method'] ?? 'Account'}',
                                       style: GoogleFonts.plusJakartaSans(
-                                        color: const Color(0xFF94A3B8),
+                                        color: const Color(0xFF677DAA),
                                         fontSize: 11,
                                       ),
                                     ),
@@ -154,20 +160,30 @@ class LedgerManagement extends StatelessWidget {
                                   ),
                                   const SizedBox(width: 8),
                                   IconButton(
-                                    icon: const Icon(Icons.delete_outline_rounded, color: Colors.grey, size: 20),
-                                    onPressed: provider.isBusy
-                                        ? null
-                                        : () {
-                                            ConfirmationDialog.show(
-                                              context,
-                                              title: 'Delete Transaction',
-                                              message:
-                                                  'Are you sure you want to permanently delete this transaction?',
-                                              confirmColor: const Color(0xFFF43F5E),
-                                              onConfirm: () =>
-                                                  provider.deleteTransaction(tx['id'].toString()),
-                                            );
-                                          },
+                                    icon: const Icon(
+                                      Icons.delete_outline_rounded,
+                                      color: Colors.grey,
+                                      size: 20,
+                                    ),
+                                    onPressed:
+                                        provider.isBusy
+                                            ? null
+                                            : () {
+                                              ConfirmationDialog.show(
+                                                context,
+                                                title: 'Delete Transaction',
+                                                message:
+                                                    'Are you sure you want to permanently delete this transaction?',
+                                                confirmColor: const Color(
+                                                  0xFFF43F5E,
+                                                ),
+                                                onConfirm:
+                                                    () => provider
+                                                        .deleteTransaction(
+                                                          tx['id'].toString(),
+                                                        ),
+                                              );
+                                            },
                                   ),
                                 ],
                               ),
@@ -178,8 +194,9 @@ class LedgerManagement extends StatelessWidget {
                     );
                   },
                 ),
-          if (provider.isBusy) _buildLoadingOverlay(),
-        ],
+            if (provider.isBusy) _buildLoadingOverlay(),
+          ],
+        ),
       ),
     );
   }
@@ -191,9 +208,9 @@ class LedgerManagement extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 24),
           decoration: BoxDecoration(
-            color: const Color(0xFF121B2A),
+            color: const Color(0xFF0A1F30),
             borderRadius: BorderRadius.circular(24),
-            border: Border.all(color: const Color(0xFF2DD4BF).withOpacity(0.3)),
+            border: Border.all(color: const Color(0xFFFED7B8).withOpacity(0.3)),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withOpacity(0.5),
@@ -206,7 +223,7 @@ class LedgerManagement extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               const CircularProgressIndicator(
-                color: Color(0xFF2DD4BF),
+                color: Color(0xFFFED7B8),
                 strokeWidth: 3,
               ),
               const SizedBox(height: 20),

@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_dot/providers/app_provider.dart';
 import 'package:wallet_dot/widgets/common/ConfirmationDialog.dart';
+import 'package:wallet_dot/widgets/common/GradientScaffold.dart';
 
 class SalaryManagement extends StatefulWidget {
   const SalaryManagement({super.key});
@@ -18,8 +19,7 @@ class _SalaryManagementState extends State<SalaryManagement> {
     final pendingSalaries = provider.salaries.where((s) => s['status'] == 'pending').toList();
     final recievedSalaries = provider.salaries.where((s) => s['status'] == 'recieved').toList();
 
-    return Scaffold(
-      backgroundColor: const Color(0xFF080C14),
+    return GradientScaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -34,7 +34,7 @@ class _SalaryManagementState extends State<SalaryManagement> {
         actions: [
           IconButton(
             onPressed: () => _showAddSalarySheet(context, provider),
-            icon: const Icon(Icons.add_circle_outline_rounded, color: Color(0xFF2DD4BF)),
+            icon: const Icon(Icons.add_circle_outline_rounded, color: Color(0xFFFED7B8)),
           ),
         ],
       ),
@@ -75,12 +75,12 @@ class _SalaryManagementState extends State<SalaryManagement> {
   }
 
   Widget _buildSalaryCard(Map<String, dynamic> salary, AppProvider provider, bool isPending) {
-    final statusColor = isPending ? const Color(0xFF2DD4BF) : const Color(0xFF10B981);
+    final statusColor = isPending ? const Color(0xFFFED7B8) : const Color(0xFF10B981);
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: const Color(0xFF121B2A),
+        color: const Color(0xFF0A1F30),
         borderRadius: BorderRadius.circular(20),
         border: Border.all(color: Colors.white.withOpacity(0.06)),
       ),
@@ -159,15 +159,15 @@ class _SalaryManagementState extends State<SalaryManagement> {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      backgroundColor: const Color(0xFF121B2A),
+      backgroundColor: const Color(0xFF0A1F30),
       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(28))),
       builder: (context) => Container(
         decoration: BoxDecoration(
-          color: const Color(0xFF121B2A),
+          color: const Color(0xFF0A1F30),
           borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
           border: Border(
             top: BorderSide(
-              color: const Color(0xFF2DD4BF).withOpacity(0.2),
+              color: const Color(0xFFFED7B8).withOpacity(0.2),
               width: 1.5,
             ),
           ),
@@ -182,7 +182,7 @@ class _SalaryManagementState extends State<SalaryManagement> {
                 children: [
                   Text('Add Salary Expectation', style: GoogleFonts.plusJakartaSans(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white)),
                   const SizedBox(height: 6),
-                  Text('Add a pending expectation to track your incoming salary.', style: GoogleFonts.plusJakartaSans(color: const Color(0xFF94A3B8), fontSize: 13)),
+                  Text('Add a pending expectation to track your incoming salary.', style: GoogleFonts.plusJakartaSans(color: const Color(0xFF677DAA), fontSize: 13)),
                   const SizedBox(height: 24),
                   _buildField('Company / Source', titleController, 'e.g., Company X Salary'),
                   const SizedBox(height: 16),
@@ -207,11 +207,11 @@ class _SalaryManagementState extends State<SalaryManagement> {
                       width: double.infinity,
                       padding: const EdgeInsets.symmetric(vertical: 18),
                       decoration: BoxDecoration(
-                        gradient: const LinearGradient(colors: [Color(0xFF2DD4BF), Color(0xFF0EA5E9)]),
+                        gradient: const LinearGradient(colors: [Color(0xFFFED7B8), Color(0xFF677DAA)]),
                         borderRadius: BorderRadius.circular(16),
                         boxShadow: [
                           BoxShadow(
-                            color: const Color(0xFF2DD4BF).withOpacity(0.25),
+                            color: const Color(0xFFFED7B8).withOpacity(0.25),
                             blurRadius: 12,
                             offset: const Offset(0, 4),
                           )
@@ -237,15 +237,15 @@ class _SalaryManagementState extends State<SalaryManagement> {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      backgroundColor: const Color(0xFF121B2A),
+      backgroundColor: const Color(0xFF0A1F30),
       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(28))),
       builder: (context) => Container(
         decoration: BoxDecoration(
-          color: const Color(0xFF121B2A),
+          color: const Color(0xFF0A1F30),
           borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
           border: Border(
             top: BorderSide(
-              color: const Color(0xFF2DD4BF).withOpacity(0.2),
+              color: const Color(0xFFFED7B8).withOpacity(0.2),
               width: 1.5,
             ),
           ),
@@ -260,7 +260,7 @@ class _SalaryManagementState extends State<SalaryManagement> {
                 children: [
                   Text('Receive Salary', style: GoogleFonts.plusJakartaSans(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white)),
                   const SizedBox(height: 6),
-                  Text('Settling salary for ${salary['month']}', style: GoogleFonts.plusJakartaSans(color: const Color(0xFF94A3B8), fontSize: 13)),
+                  Text('Settling salary for ${salary['month']}', style: GoogleFonts.plusJakartaSans(color: const Color(0xFF677DAA), fontSize: 13)),
                   const SizedBox(height: 24),
                   _buildField('Final Received Amount', amountController, '0.00', isNumber: true),
                   const SizedBox(height: 24),
@@ -284,11 +284,11 @@ class _SalaryManagementState extends State<SalaryManagement> {
                       width: double.infinity,
                       padding: const EdgeInsets.symmetric(vertical: 18),
                       decoration: BoxDecoration(
-                        gradient: const LinearGradient(colors: [Color(0xFF2DD4BF), Color(0xFF0EA5E9)]),
+                        gradient: const LinearGradient(colors: [Color(0xFFFED7B8), Color(0xFF677DAA)]),
                         borderRadius: BorderRadius.circular(16),
                         boxShadow: [
                           BoxShadow(
-                            color: const Color(0xFF2DD4BF).withOpacity(0.25),
+                            color: const Color(0xFFFED7B8).withOpacity(0.25),
                             blurRadius: 12,
                             offset: const Offset(0, 4),
                           )
@@ -321,7 +321,7 @@ class _SalaryManagementState extends State<SalaryManagement> {
             hintText: hint,
             hintStyle: GoogleFonts.plusJakartaSans(color: Colors.white.withOpacity(0.2)),
             filled: true,
-            fillColor: const Color(0xFF0A0E17),
+            fillColor: const Color(0xFF02101C),
             contentPadding: const EdgeInsets.all(16),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(16),
@@ -329,7 +329,7 @@ class _SalaryManagementState extends State<SalaryManagement> {
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(16),
-              borderSide: const BorderSide(color: Color(0xFF2DD4BF), width: 1.2),
+              borderSide: const BorderSide(color: Color(0xFFFED7B8), width: 1.2),
             ),
           ),
         ),
@@ -345,17 +345,17 @@ class _SalaryManagementState extends State<SalaryManagement> {
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 12),
           decoration: BoxDecoration(
-            color: isSelected ? const Color(0xFF2DD4BF).withOpacity(0.12) : Colors.transparent,
+            color: isSelected ? const Color(0xFFFED7B8).withOpacity(0.12) : Colors.transparent,
             borderRadius: BorderRadius.circular(12),
             border: Border.all(
-              color: isSelected ? const Color(0xFF2DD4BF) : Colors.white.withOpacity(0.04),
+              color: isSelected ? const Color(0xFFFED7B8) : Colors.white.withOpacity(0.04),
             ),
           ),
           child: Center(
             child: Text(
               label,
               style: GoogleFonts.plusJakartaSans(
-                color: isSelected ? const Color(0xFF2DD4BF) : Colors.grey,
+                color: isSelected ? const Color(0xFFFED7B8) : Colors.grey,
                 fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
                 fontSize: 13,
               ),
@@ -386,9 +386,9 @@ class _SalaryManagementState extends State<SalaryManagement> {
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 24),
           decoration: BoxDecoration(
-            color: const Color(0xFF121B2A),
+            color: const Color(0xFF0A1F30),
             borderRadius: BorderRadius.circular(24),
-            border: Border.all(color: const Color(0xFF2DD4BF).withOpacity(0.3)),
+            border: Border.all(color: const Color(0xFFFED7B8).withOpacity(0.3)),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withOpacity(0.5),
@@ -401,7 +401,7 @@ class _SalaryManagementState extends State<SalaryManagement> {
             mainAxisSize: MainAxisSize.min,
             children: [
               const CircularProgressIndicator(
-                color: Color(0xFF2DD4BF),
+                color: Color(0xFFFED7B8),
                 strokeWidth: 3,
               ),
               const SizedBox(height: 20),

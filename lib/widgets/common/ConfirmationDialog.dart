@@ -13,14 +13,14 @@ class ConfirmationDialog extends StatelessWidget {
     required this.title,
     required this.message,
     this.confirmLabel = 'Confirm',
-    this.confirmColor = const Color(0xFF2DD4BF),
+    this.confirmColor = const Color(0xFFFED7B8),
     required this.onConfirm,
   });
 
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      backgroundColor: const Color(0xFF121B2A),
+      backgroundColor: const Color(0xFF0A1F30),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(24),
         side: BorderSide(color: Colors.white.withOpacity(0.06)),
@@ -89,7 +89,7 @@ class ConfirmationDialog extends StatelessWidget {
     required String title,
     required String message,
     String confirmLabel = 'Confirm',
-    Color confirmColor = const Color(0xFF2DD4BF),
+    Color confirmColor = const Color(0xFFFED7B8),
     required VoidCallback onConfirm,
   }) {
     return showDialog(

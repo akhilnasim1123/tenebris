@@ -14,7 +14,7 @@ class DatabaseService {
         defaultTargetPlatform == TargetPlatform.android
             ? '192.168.18.68'
             : '192.168.18.68';
-    return 'http://192.168.18.68:8000/api';
+    return 'http://$host:8000/api';
   }
 
   factory DatabaseService() {

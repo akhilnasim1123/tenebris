@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_dot/providers/app_provider.dart';
 import 'package:wallet_dot/widgets/common/ConfirmationDialog.dart';
+import 'package:wallet_dot/widgets/common/GradientScaffold.dart';
 
 class PersonalManagement extends StatefulWidget {
   const PersonalManagement({super.key});
@@ -23,8 +24,7 @@ class _PersonalManagementState extends State<PersonalManagement> {
         .where((d) => d['type'] == 'debit' && (d['status'] ?? 'active') == 'active')
         .fold(0.0, (s, i) => s + (i['amount'] ?? 0.0));
 
-    return Scaffold(
-      backgroundColor: const Color(0xFF080C14),
+    return GradientScaffold(
       appBar: AppBar(
         title: Text(
           'My Debts & Credits',
@@ -46,7 +46,7 @@ class _PersonalManagementState extends State<PersonalManagement> {
                 margin: const EdgeInsets.all(20),
                 padding: const EdgeInsets.all(24),
                 decoration: BoxDecoration(
-                  color: const Color(0xFF121B2A),
+                  color: const Color(0xFF0A1F30),
                   borderRadius: BorderRadius.circular(24),
                   border: Border.all(color: Colors.white.withOpacity(0.06)),
                 ),
@@ -85,7 +85,7 @@ class _PersonalManagementState extends State<PersonalManagement> {
                     ),
                     IconButton(
                       onPressed: () => _showAddDebtSheet(context),
-                      icon: const Icon(Icons.add_circle_outline_rounded, color: Color(0xFF2DD4BF)),
+                      icon: const Icon(Icons.add_circle_outline_rounded, color: Color(0xFFFED7B8)),
                     ),
                   ],
                 ),
@@ -106,7 +106,7 @@ class _PersonalManagementState extends State<PersonalManagement> {
                             margin: const EdgeInsets.only(bottom: 12),
                             padding: const EdgeInsets.all(16),
                             decoration: BoxDecoration(
-                              color: const Color(0xFF121B2A),
+                              color: const Color(0xFF0A1F30),
                               borderRadius: BorderRadius.circular(20),
                               border: Border.all(color: Colors.white.withOpacity(0.06)),
                             ),
@@ -183,10 +183,10 @@ class _PersonalManagementState extends State<PersonalManagement> {
                                               context,
                                               title: 'Reject Record',
                                               message: 'Mark this record as rejected? This means the debt/credit is no longer valid.',
-                                              confirmColor: const Color(0xFF0EA5E9),
+                                              confirmColor: const Color(0xFF677DAA),
                                               onConfirm: () => provider.updatePersonalDebt(debt['id'], debt['title'], (debt['amount'] as num).toDouble(), debt['type'], debt['person'], status: 'rejected'),
                                             ),
-                                            child: Icon(Icons.cancel_outlined, color: const Color(0xFF0EA5E9).withOpacity(0.6), size: 18),
+                                            child: Icon(Icons.cancel_outlined, color: const Color(0xFF677DAA).withOpacity(0.6), size: 18),
                                           ),
                                           const SizedBox(width: 12),
                                         ],
@@ -231,9 +231,9 @@ class _PersonalManagementState extends State<PersonalManagement> {
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 24),
           decoration: BoxDecoration(
-            color: const Color(0xFF121B2A),
+            color: const Color(0xFF0A1F30),
             borderRadius: BorderRadius.circular(24),
-            border: Border.all(color: const Color(0xFF2DD4BF).withOpacity(0.3)),
+            border: Border.all(color: const Color(0xFFFED7B8).withOpacity(0.3)),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withOpacity(0.5),
@@ -246,7 +246,7 @@ class _PersonalManagementState extends State<PersonalManagement> {
             mainAxisSize: MainAxisSize.min,
             children: [
               const CircularProgressIndicator(
-                color: Color(0xFF2DD4BF),
+                color: Color(0xFFFED7B8),
                 strokeWidth: 3,
               ),
               const SizedBox(height: 20),
@@ -268,7 +268,7 @@ class _PersonalManagementState extends State<PersonalManagement> {
     if (status == null) return const SizedBox.shrink();
     Color color = Colors.grey;
     if (status == 'settled') color = const Color(0xFF10B981);
-    if (status == 'rejected') color = const Color(0xFF0EA5E9);
+    if (status == 'rejected') color = const Color(0xFF677DAA);
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
@@ -324,16 +324,16 @@ class _PersonalManagementState extends State<PersonalManagement> {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      backgroundColor: const Color(0xFF121B2A),
+      backgroundColor: const Color(0xFF0A1F30),
       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(28))),
       builder: (context) {
         return Container(
           decoration: BoxDecoration(
-            color: const Color(0xFF121B2A),
+            color: const Color(0xFF0A1F30),
             borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
             border: Border(
               top: BorderSide(
-                color: const Color(0xFF2DD4BF).withOpacity(0.2),
+                color: const Color(0xFFFED7B8).withOpacity(0.2),
                 width: 1.5,
               ),
             ),
@@ -357,7 +357,7 @@ class _PersonalManagementState extends State<PersonalManagement> {
                       const SizedBox(height: 6),
                       Text(
                         existingDebt == null ? 'Record a new credit or debt relationship.' : 'Modify details of this credit or debt.',
-                        style: GoogleFonts.plusJakartaSans(color: const Color(0xFF94A3B8), fontSize: 13),
+                        style: GoogleFonts.plusJakartaSans(color: const Color(0xFF677DAA), fontSize: 13),
                       ),
                       const SizedBox(height: 24),
                       
@@ -365,7 +365,7 @@ class _PersonalManagementState extends State<PersonalManagement> {
                       Container(
                         padding: const EdgeInsets.all(4),
                         decoration: BoxDecoration(
-                          color: const Color(0xFF0A0E17),
+                          color: const Color(0xFF02101C),
                           borderRadius: BorderRadius.circular(16),
                         ),
                         child: Row(
@@ -404,13 +404,13 @@ class _PersonalManagementState extends State<PersonalManagement> {
                               gradient: LinearGradient(
                                 colors: provider.isBusy 
                                   ? [Colors.grey.withOpacity(0.5), Colors.grey.withOpacity(0.3)] 
-                                  : [const Color(0xFF2DD4BF), const Color(0xFF0EA5E9)],
+                                  : [const Color(0xFFFED7B8), const Color(0xFF677DAA)],
                               ),
                               borderRadius: BorderRadius.circular(16),
                               boxShadow: [
                                 if (!provider.isBusy)
                                   BoxShadow(
-                                    color: const Color(0xFF2DD4BF).withOpacity(0.25),
+                                    color: const Color(0xFFFED7B8).withOpacity(0.25),
                                     blurRadius: 12,
                                     offset: const Offset(0, 4),
                                   )
@@ -451,14 +451,14 @@ class _PersonalManagementState extends State<PersonalManagement> {
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 12),
           decoration: BoxDecoration(
-            color: isSelected ? const Color(0xFF2DD4BF).withOpacity(0.12) : Colors.transparent,
+            color: isSelected ? const Color(0xFFFED7B8).withOpacity(0.12) : Colors.transparent,
             borderRadius: BorderRadius.circular(12),
           ),
           child: Center(
             child: Text(
               label,
               style: GoogleFonts.plusJakartaSans(
-                color: isSelected ? const Color(0xFF2DD4BF) : Colors.grey,
+                color: isSelected ? const Color(0xFFFED7B8) : Colors.grey,
                 fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
               ),
             ),
@@ -482,7 +482,7 @@ class _PersonalManagementState extends State<PersonalManagement> {
             hintText: hint,
             hintStyle: GoogleFonts.plusJakartaSans(color: Colors.white.withOpacity(0.2)),
             filled: true,
-            fillColor: const Color(0xFF0A0E17),
+            fillColor: const Color(0xFF02101C),
             contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(16),
@@ -490,7 +490,7 @@ class _PersonalManagementState extends State<PersonalManagement> {
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(16),
-              borderSide: const BorderSide(color: Color(0xFF2DD4BF), width: 1.2),
+              borderSide: const BorderSide(color: Color(0xFFFED7B8), width: 1.2),
             ),
           ),
         ),

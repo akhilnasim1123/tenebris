@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:image_picker/image_picker.dart';
 import '../providers/app_provider.dart';
+import 'package:wallet_dot/widgets/common/GradientScaffold.dart';
 
 class AvatarWidget extends StatelessWidget {
   final String? profilePicture;
@@ -16,10 +17,10 @@ class AvatarWidget extends StatelessWidget {
     if (profilePicture == null || profilePicture!.isEmpty) {
       return CircleAvatar(
         radius: radius,
-        backgroundColor: const Color(0xFF1E293B),
+        backgroundColor: const Color(0xFF053B5B),
         child: Icon(
           Icons.person_rounded,
-          color: const Color(0xFF94A3B8),
+          color: const Color(0xFF677DAA),
           size: radius * 1.2,
         ),
       );
@@ -58,10 +59,10 @@ class AvatarWidget extends StatelessWidget {
     } catch (e) {
       return CircleAvatar(
         radius: radius,
-        backgroundColor: const Color(0xFF1E293B),
+        backgroundColor: const Color(0xFF053B5B),
         child: Icon(
           Icons.person_rounded,
-          color: const Color(0xFF94A3B8),
+          color: const Color(0xFF677DAA),
           size: radius * 1.2,
         ),
       );
@@ -70,7 +71,7 @@ class AvatarWidget extends StatelessWidget {
 
   static Gradient _getAvatarGradient(int index) {
     final gradients = [
-      const LinearGradient(colors: [Color(0xFF2DD4BF), Color(0xFF0EA5E9)], begin: Alignment.topLeft, end: Alignment.bottomRight), // Teal to Cyan
+      const LinearGradient(colors: [Color(0xFFFED7B8), Color(0xFF677DAA)], begin: Alignment.topLeft, end: Alignment.bottomRight), // Peach to Steel Blue
       const LinearGradient(colors: [Color(0xFFF43F5E), Color(0xFFFB923C)], begin: Alignment.topLeft, end: Alignment.bottomRight), // Coral to Orange
       const LinearGradient(colors: [Color(0xFFA855F7), Color(0xFFEC4899)], begin: Alignment.topLeft, end: Alignment.bottomRight), // Purple to Pink
       const LinearGradient(colors: [Color(0xFF10B981), Color(0xFF3B82F6)], begin: Alignment.topLeft, end: Alignment.bottomRight), // Emerald to Blue
@@ -208,13 +209,12 @@ class _ProfileSettingsState extends State<ProfileSettings> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFF080C14),
+    return GradientScaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new_rounded, color: Color(0xFF94A3B8)),
+          icon: const Icon(Icons.arrow_back_ios_new_rounded, color: Color(0xFF677DAA)),
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
@@ -246,12 +246,12 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           border: Border.all(
-                            color: const Color(0xFF2DD4BF),
+                            color: const Color(0xFFFED7B8),
                             width: 2.0,
                           ),
                           boxShadow: [
                             BoxShadow(
-                              color: const Color(0xFF2DD4BF).withOpacity(0.15),
+                              color: const Color(0xFFFED7B8).withOpacity(0.15),
                               blurRadius: 12,
                               spreadRadius: 2,
                             ),
@@ -268,11 +268,11 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                           padding: const EdgeInsets.all(8),
                           decoration: const BoxDecoration(
                             shape: BoxShape.circle,
-                            color: Color(0xFF2DD4BF),
+                            color: Color(0xFFFED7B8),
                           ),
                           child: const Icon(
                             Icons.edit_rounded,
-                            color: Color(0xFF080C14),
+                            color: Color(0xFF000000),
                             size: 18,
                           ),
                         ),
@@ -288,7 +288,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                   child: Text(
                     'Predefined Premium Avatars',
                     style: GoogleFonts.plusJakartaSans(
-                      color: const Color(0xFF94A3B8),
+                      color: const Color(0xFF677DAA),
                       fontWeight: FontWeight.w600,
                       fontSize: 14,
                     ),
@@ -318,16 +318,16 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               border: Border.all(
-                                color: isSelected ? const Color(0xFF2DD4BF) : Colors.transparent,
+                                color: isSelected ? const Color(0xFFFED7B8) : Colors.transparent,
                                 width: 2,
                               ),
                             ),
                             child: const CircleAvatar(
                               radius: 28,
-                              backgroundColor: Color(0xFF1E293B),
+                              backgroundColor: Color(0xFF053B5B),
                               child: Icon(
                                 Icons.person_rounded,
-                                color: Color(0xFF94A3B8),
+                                color: Color(0xFF677DAA),
                                 size: 28 * 1.2,
                               ),
                             ),
@@ -349,7 +349,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             border: Border.all(
-                              color: isSelected ? const Color(0xFF2DD4BF) : Colors.transparent,
+                              color: isSelected ? const Color(0xFFFED7B8) : Colors.transparent,
                               width: 2,
                             ),
                           ),
@@ -368,10 +368,10 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                 Container(
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
-                    color: const Color(0xFF121B2A),
+                    color: const Color(0xFF0A1F30),
                     borderRadius: BorderRadius.circular(20),
                     border: Border.all(
-                      color: const Color(0xFF2DD4BF).withOpacity(0.1),
+                      color: const Color(0xFFFED7B8).withOpacity(0.1),
                     ),
                   ),
                   child: Column(
@@ -420,7 +420,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                         suffixIcon: IconButton(
                           icon: Icon(
                             _obscurePassword ? Icons.visibility_off_rounded : Icons.visibility_rounded,
-                            color: const Color(0xFF94A3B8),
+                            color: const Color(0xFF677DAA),
                           ),
                           onPressed: () {
                             setState(() {
@@ -449,13 +449,13 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(16),
                       gradient: const LinearGradient(
-                        colors: [Color(0xFF2DD4BF), Color(0xFF0EA5E9)],
+                        colors: [Color(0xFFFED7B8), Color(0xFF677DAA)],
                         begin: Alignment.centerLeft,
                         end: Alignment.centerRight,
                       ),
                       boxShadow: [
                         BoxShadow(
-                          color: const Color(0xFF2DD4BF).withOpacity(0.3),
+                          color: const Color(0xFFFED7B8).withOpacity(0.3),
                           blurRadius: 16,
                           offset: const Offset(0, 4),
                         ),
@@ -505,7 +505,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
         Text(
           label,
           style: GoogleFonts.plusJakartaSans(
-            color: const Color(0xFF94A3B8),
+            color: const Color(0xFF677DAA),
             fontWeight: FontWeight.w600,
             fontSize: 13,
           ),
@@ -522,13 +522,13 @@ class _ProfileSettingsState extends State<ProfileSettings> {
           decoration: InputDecoration(
             hintText: hint,
             hintStyle: GoogleFonts.plusJakartaSans(
-              color: const Color(0xFF475569),
+              color: const Color(0xFF0F3B5F),
               fontSize: 14,
             ),
-            prefixIcon: Icon(icon, color: const Color(0xFF475569), size: 20),
+            prefixIcon: Icon(icon, color: const Color(0xFF0F3B5F), size: 20),
             suffixIcon: suffixIcon,
             filled: true,
-            fillColor: const Color(0xFF0A0E17),
+            fillColor: const Color(0xFF02101C),
             contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
@@ -537,14 +537,14 @@ class _ProfileSettingsState extends State<ProfileSettings> {
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
               borderSide: BorderSide(
-                color: const Color(0xFF2DD4BF).withOpacity(0.05),
+                color: const Color(0xFFFED7B8).withOpacity(0.05),
                 width: 1,
               ),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
               borderSide: const BorderSide(
-                color: Color(0xFF2DD4BF),
+                color: Color(0xFFFED7B8),
                 width: 1.5,
               ),
             ),

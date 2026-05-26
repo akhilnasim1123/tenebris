@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 import 'package:wallet_dot/providers/app_provider.dart';
 import 'package:wallet_dot/widgets/common/ConfirmationDialog.dart';
+import 'package:wallet_dot/widgets/common/GradientScaffold.dart';
 
 class NotesManagement extends StatefulWidget {
   const NotesManagement({super.key});
@@ -28,7 +29,7 @@ class _NotesManagementState extends State<NotesManagement> {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      backgroundColor: const Color(0xFF121B2A),
+      backgroundColor: const Color(0xFF0A1F30),
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
       ),
@@ -37,11 +38,11 @@ class _NotesManagementState extends State<NotesManagement> {
           builder: (context, setSheetState) {
             return Container(
               decoration: BoxDecoration(
-                color: const Color(0xFF121B2A),
+                color: const Color(0xFF0A1F30),
                 borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
                 border: Border(
                   top: BorderSide(
-                    color: const Color(0xFF2DD4BF).withOpacity(0.2),
+                    color: const Color(0xFFFED7B8).withOpacity(0.2),
                     width: 1.5,
                   ),
                 ),
@@ -69,7 +70,7 @@ class _NotesManagementState extends State<NotesManagement> {
                     Text(
                       'Document important information in your knowledge base.',
                       style: GoogleFonts.plusJakartaSans(
-                        color: const Color(0xFF94A3B8),
+                        color: const Color(0xFF677DAA),
                         fontSize: 13,
                       ),
                     ),
@@ -84,7 +85,7 @@ class _NotesManagementState extends State<NotesManagement> {
                           child: Container(
                             padding: const EdgeInsets.symmetric(horizontal: 16),
                             decoration: BoxDecoration(
-                              color: const Color(0xFF0A0E17),
+                              color: const Color(0xFF02101C),
                               borderRadius: BorderRadius.circular(16),
                               border: Border.all(color: Colors.white.withOpacity(0.04)),
                             ),
@@ -97,7 +98,7 @@ class _NotesManagementState extends State<NotesManagement> {
                                     child: DropdownButton<String>(
                                       value: _selectedCategoryId,
                                       isExpanded: true,
-                                      dropdownColor: const Color(0xFF121B2A),
+                                      dropdownColor: const Color(0xFF0A1F30),
                                       items: categories.map((cat) {
                                         return DropdownMenuItem<String>(
                                           value: cat['id'].toString(),
@@ -120,11 +121,11 @@ class _NotesManagementState extends State<NotesManagement> {
                           child: Container(
                             padding: const EdgeInsets.all(16),
                             decoration: BoxDecoration(
-                              color: const Color(0xFF2DD4BF).withOpacity(0.12),
+                              color: const Color(0xFFFED7B8).withOpacity(0.12),
                               borderRadius: BorderRadius.circular(16),
-                              border: Border.all(color: const Color(0xFF2DD4BF).withOpacity(0.15)),
+                              border: Border.all(color: const Color(0xFFFED7B8).withOpacity(0.15)),
                             ),
-                            child: const Icon(Icons.add, color: Color(0xFF2DD4BF)),
+                            child: const Icon(Icons.add, color: Color(0xFFFED7B8)),
                           ),
                         ),
                       ],
@@ -141,7 +142,7 @@ class _NotesManagementState extends State<NotesManagement> {
                         hintText: 'e.g., SQLite FFI Logic',
                         hintStyle: GoogleFonts.plusJakartaSans(color: Colors.white.withOpacity(0.2)),
                         filled: true,
-                        fillColor: const Color(0xFF0A0E17),
+                        fillColor: const Color(0xFF02101C),
                         contentPadding: const EdgeInsets.all(16),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(16),
@@ -149,7 +150,7 @@ class _NotesManagementState extends State<NotesManagement> {
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(16),
-                          borderSide: const BorderSide(color: Color(0xFF2DD4BF), width: 1.2),
+                          borderSide: const BorderSide(color: Color(0xFFFED7B8), width: 1.2),
                         ),
                       ),
                     ),
@@ -166,7 +167,7 @@ class _NotesManagementState extends State<NotesManagement> {
                         hintText: 'Brain dump here...',
                         hintStyle: GoogleFonts.plusJakartaSans(color: Colors.white.withOpacity(0.2)),
                         filled: true,
-                        fillColor: const Color(0xFF0A0E17),
+                        fillColor: const Color(0xFF02101C),
                         contentPadding: const EdgeInsets.all(16),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(16),
@@ -174,7 +175,7 @@ class _NotesManagementState extends State<NotesManagement> {
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(16),
-                          borderSide: const BorderSide(color: Color(0xFF2DD4BF), width: 1.2),
+                          borderSide: const BorderSide(color: Color(0xFFFED7B8), width: 1.2),
                         ),
                       ),
                     ),
@@ -199,12 +200,12 @@ class _NotesManagementState extends State<NotesManagement> {
                         padding: const EdgeInsets.symmetric(vertical: 18),
                         decoration: BoxDecoration(
                           gradient: const LinearGradient(
-                            colors: [Color(0xFF2DD4BF), Color(0xFF0EA5E9)],
+                            colors: [Color(0xFFFED7B8), Color(0xFF677DAA)],
                           ),
                           borderRadius: BorderRadius.circular(16),
                           boxShadow: [
                             BoxShadow(
-                              color: const Color(0xFF2DD4BF).withOpacity(0.25),
+                              color: const Color(0xFFFED7B8).withOpacity(0.25),
                               blurRadius: 12,
                               offset: const Offset(0, 4),
                             ),
@@ -233,18 +234,18 @@ class _NotesManagementState extends State<NotesManagement> {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      backgroundColor: const Color(0xFF121B2A),
+      backgroundColor: const Color(0xFF0A1F30),
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
       ),
       builder: (context) {
         return Container(
           decoration: BoxDecoration(
-            color: const Color(0xFF121B2A),
+            color: const Color(0xFF0A1F30),
             borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
             border: Border(
               top: BorderSide(
-                color: const Color(0xFF2DD4BF).withOpacity(0.2),
+                color: const Color(0xFFFED7B8).withOpacity(0.2),
                 width: 1.5,
               ),
             ),
@@ -265,7 +266,7 @@ class _NotesManagementState extends State<NotesManagement> {
                         fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white)),
                 const SizedBox(height: 6),
                 Text('Group your knowledge base notes.',
-                    style: GoogleFonts.plusJakartaSans(color: const Color(0xFF94A3B8), fontSize: 13)),
+                    style: GoogleFonts.plusJakartaSans(color: const Color(0xFF677DAA), fontSize: 13)),
                 const SizedBox(height: 24),
                 TextField(
                   controller: _categoryController,
@@ -274,14 +275,14 @@ class _NotesManagementState extends State<NotesManagement> {
                     hintText: 'e.g., Coding',
                     hintStyle: GoogleFonts.plusJakartaSans(color: Colors.white.withOpacity(0.2)),
                     filled: true,
-                    fillColor: const Color(0xFF0A0E17),
+                    fillColor: const Color(0xFF02101C),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(16),
                       borderSide: BorderSide(color: Colors.white.withOpacity(0.04)),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(16),
-                      borderSide: const BorderSide(color: Color(0xFF2DD4BF), width: 1.2),
+                      borderSide: const BorderSide(color: Color(0xFFFED7B8), width: 1.2),
                     ),
                   ),
                 ),
@@ -303,12 +304,12 @@ class _NotesManagementState extends State<NotesManagement> {
                     padding: const EdgeInsets.symmetric(vertical: 18),
                     decoration: BoxDecoration(
                       gradient: const LinearGradient(
-                        colors: [Color(0xFF2DD4BF), Color(0xFF0EA5E9)],
+                        colors: [Color(0xFFFED7B8), Color(0xFF677DAA)],
                       ),
                       borderRadius: BorderRadius.circular(16),
                       boxShadow: [
                         BoxShadow(
-                          color: const Color(0xFF2DD4BF).withOpacity(0.25),
+                          color: const Color(0xFFFED7B8).withOpacity(0.25),
                           blurRadius: 12,
                           offset: const Offset(0, 4),
                         ),
@@ -336,8 +337,7 @@ class _NotesManagementState extends State<NotesManagement> {
         ? provider.notes 
         : provider.notes.where((n) => n['category_id'] == _selectedFilterId).toList();
 
-    return Scaffold(
-      backgroundColor: const Color(0xFF080C14),
+    return GradientScaffold(
       appBar: AppBar(
         title: Text(
           'Knowledge Base',
@@ -410,13 +410,13 @@ class _NotesManagementState extends State<NotesManagement> {
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           gradient: const LinearGradient(
-            colors: [Color(0xFF2DD4BF), Color(0xFF0EA5E9)],
+            colors: [Color(0xFFFED7B8), Color(0xFF677DAA)],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
           boxShadow: [
             BoxShadow(
-              color: const Color(0xFF2DD4BF).withOpacity(0.3),
+              color: const Color(0xFFFED7B8).withOpacity(0.3),
               blurRadius: 12,
               offset: const Offset(0, 4),
             ),
@@ -443,9 +443,9 @@ class _NotesManagementState extends State<NotesManagement> {
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(
           gradient: isSelected
-              ? const LinearGradient(colors: [Color(0xFF2DD4BF), Color(0xFF0EA5E9)])
+              ? const LinearGradient(colors: [Color(0xFFFED7B8), Color(0xFF677DAA)])
               : null,
-          color: isSelected ? null : const Color(0xFF121B2A),
+          color: isSelected ? null : const Color(0xFF0A1F30),
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
             color: isSelected ? Colors.transparent : Colors.white.withOpacity(0.06),
@@ -467,7 +467,7 @@ class _NotesManagementState extends State<NotesManagement> {
       margin: const EdgeInsets.only(bottom: 16),
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: const Color(0xFF121B2A),
+        color: const Color(0xFF0A1F30),
         borderRadius: BorderRadius.circular(20),
         border: Border.all(color: Colors.white.withOpacity(0.06)),
       ),
@@ -480,14 +480,14 @@ class _NotesManagementState extends State<NotesManagement> {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                 decoration: BoxDecoration(
-                  color: const Color(0xFF2DD4BF).withOpacity(0.12),
+                  color: const Color(0xFFFED7B8).withOpacity(0.12),
                   borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: const Color(0xFF2DD4BF).withOpacity(0.15)),
+                  border: Border.all(color: const Color(0xFFFED7B8).withOpacity(0.15)),
                 ),
                 child: Text(
                   note['category_name'] ?? 'Unknown',
                   style: GoogleFonts.plusJakartaSans(
-                    color: const Color(0xFF2DD4BF),
+                    color: const Color(0xFFFED7B8),
                     fontSize: 11,
                     fontWeight: FontWeight.bold,
                   ),
@@ -534,9 +534,9 @@ class _NotesManagementState extends State<NotesManagement> {
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 24),
           decoration: BoxDecoration(
-            color: const Color(0xFF121B2A),
+            color: const Color(0xFF0A1F30),
             borderRadius: BorderRadius.circular(24),
-            border: Border.all(color: const Color(0xFF2DD4BF).withOpacity(0.3)),
+            border: Border.all(color: const Color(0xFFFED7B8).withOpacity(0.3)),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withOpacity(0.5),
@@ -549,7 +549,7 @@ class _NotesManagementState extends State<NotesManagement> {
             mainAxisSize: MainAxisSize.min,
             children: [
               const CircularProgressIndicator(
-                color: Color(0xFF2DD4BF),
+                color: Color(0xFFFED7B8),
                 strokeWidth: 3,
               ),
               const SizedBox(height: 20),

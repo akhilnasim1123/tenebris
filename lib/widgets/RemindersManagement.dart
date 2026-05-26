@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:wallet_dot/providers/app_provider.dart';
 import 'package:intl/intl.dart';
 import 'package:wallet_dot/widgets/common/ConfirmationDialog.dart';
+import 'package:wallet_dot/widgets/common/GradientScaffold.dart';
 
 class RemindersManagement extends StatefulWidget {
   const RemindersManagement({super.key});
@@ -21,18 +22,18 @@ class _RemindersManagementState extends State<RemindersManagement> {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      backgroundColor: const Color(0xFF121B2A),
+      backgroundColor: const Color(0xFF0A1F30),
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
       ),
       builder: (context) {
         return Container(
           decoration: BoxDecoration(
-            color: const Color(0xFF121B2A),
+            color: const Color(0xFF0A1F30),
             borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
             border: Border(
               top: BorderSide(
-                color: const Color(0xFF2DD4BF).withOpacity(0.2),
+                color: const Color(0xFFFED7B8).withOpacity(0.2),
                 width: 1.5,
               ),
             ),
@@ -62,7 +63,7 @@ class _RemindersManagementState extends State<RemindersManagement> {
                     Text(
                       'Schedule a push notification reminder.',
                       style: GoogleFonts.plusJakartaSans(
-                        color: const Color(0xFF94A3B8),
+                        color: const Color(0xFF677DAA),
                         fontSize: 13,
                       ),
                     ),
@@ -77,7 +78,7 @@ class _RemindersManagementState extends State<RemindersManagement> {
                         hintText: 'e.g., Pay rent bill',
                         hintStyle: GoogleFonts.plusJakartaSans(color: Colors.white.withOpacity(0.2)),
                         filled: true,
-                        fillColor: const Color(0xFF0A0E17),
+                        fillColor: const Color(0xFF02101C),
                         contentPadding: const EdgeInsets.all(16),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(16),
@@ -85,7 +86,7 @@ class _RemindersManagementState extends State<RemindersManagement> {
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(16),
-                          borderSide: const BorderSide(color: Color(0xFF2DD4BF), width: 1.2),
+                          borderSide: const BorderSide(color: Color(0xFFFED7B8), width: 1.2),
                         ),
                       ),
                     ),
@@ -105,9 +106,9 @@ class _RemindersManagementState extends State<RemindersManagement> {
                                   return Theme(
                                     data: Theme.of(context).copyWith(
                                       colorScheme: const ColorScheme.dark(
-                                        primary: Color(0xFF2DD4BF),
+                                        primary: Color(0xFFFED7B8),
                                         onPrimary: Colors.black,
-                                        surface: Color(0xFF121B2A),
+                                        surface: Color(0xFF0A1F30),
                                         onSurface: Colors.white,
                                       ),
                                     ),
@@ -121,7 +122,7 @@ class _RemindersManagementState extends State<RemindersManagement> {
                                 });
                               }
                             },
-                            icon: const Icon(Icons.calendar_today_rounded, color: Color(0xFF2DD4BF), size: 16),
+                            icon: const Icon(Icons.calendar_today_rounded, color: Color(0xFFFED7B8), size: 16),
                             label: Text(
                               _selectedDate == null ? 'Select Date' : DateFormat('MMM dd, yyyy').format(_selectedDate!),
                               style: GoogleFonts.plusJakartaSans(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w600),
@@ -130,7 +131,7 @@ class _RemindersManagementState extends State<RemindersManagement> {
                               side: BorderSide(color: Colors.white.withOpacity(0.06)),
                               padding: const EdgeInsets.symmetric(vertical: 14),
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                              backgroundColor: const Color(0xFF0A0E17),
+                              backgroundColor: const Color(0xFF02101C),
                             ),
                           ),
                         ),
@@ -145,9 +146,9 @@ class _RemindersManagementState extends State<RemindersManagement> {
                                   return Theme(
                                     data: Theme.of(context).copyWith(
                                       colorScheme: const ColorScheme.dark(
-                                        primary: Color(0xFF2DD4BF),
+                                        primary: Color(0xFFFED7B8),
                                         onPrimary: Colors.black,
-                                        surface: Color(0xFF121B2A),
+                                        surface: Color(0xFF0A1F30),
                                         onSurface: Colors.white,
                                       ),
                                     ),
@@ -161,7 +162,7 @@ class _RemindersManagementState extends State<RemindersManagement> {
                                 });
                               }
                             },
-                            icon: const Icon(Icons.access_time_rounded, color: Color(0xFF2DD4BF), size: 16),
+                            icon: const Icon(Icons.access_time_rounded, color: Color(0xFFFED7B8), size: 16),
                             label: Text(
                               _selectedTime == null ? 'Select Time' : _selectedTime!.format(context),
                               style: GoogleFonts.plusJakartaSans(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w600),
@@ -170,7 +171,7 @@ class _RemindersManagementState extends State<RemindersManagement> {
                               side: BorderSide(color: Colors.white.withOpacity(0.06)),
                               padding: const EdgeInsets.symmetric(vertical: 14),
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                              backgroundColor: const Color(0xFF0A0E17),
+                              backgroundColor: const Color(0xFF02101C),
                             ),
                           ),
                         ),
@@ -199,12 +200,12 @@ class _RemindersManagementState extends State<RemindersManagement> {
                         padding: const EdgeInsets.symmetric(vertical: 18),
                         decoration: BoxDecoration(
                           gradient: const LinearGradient(
-                            colors: [Color(0xFF2DD4BF), Color(0xFF0EA5E9)],
+                            colors: [Color(0xFFFED7B8), Color(0xFF677DAA)],
                           ),
                           borderRadius: BorderRadius.circular(16),
                           boxShadow: [
                             BoxShadow(
-                              color: const Color(0xFF2DD4BF).withOpacity(0.25),
+                              color: const Color(0xFFFED7B8).withOpacity(0.25),
                               blurRadius: 12,
                               offset: const Offset(0, 4),
                             ),
@@ -233,8 +234,7 @@ class _RemindersManagementState extends State<RemindersManagement> {
   Widget build(BuildContext context) {
     final provider = Provider.of<AppProvider>(context);
 
-    return Scaffold(
-      backgroundColor: const Color(0xFF080C14),
+    return GradientScaffold(
       appBar: AppBar(
         title: Text(
           'Reminders',
@@ -283,7 +283,7 @@ class _RemindersManagementState extends State<RemindersManagement> {
                     return Container(
                       margin: const EdgeInsets.only(bottom: 12),
                       decoration: BoxDecoration(
-                        color: const Color(0xFF121B2A),
+                        color: const Color(0xFF0A1F30),
                         borderRadius: BorderRadius.circular(20),
                         border: Border.all(color: Colors.white.withOpacity(0.06)),
                       ),
@@ -291,7 +291,7 @@ class _RemindersManagementState extends State<RemindersManagement> {
                         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                         leading: Checkbox(
                           value: isCompleted,
-                          activeColor: const Color(0xFF2DD4BF),
+                          activeColor: const Color(0xFFFED7B8),
                           checkColor: Colors.black,
                           side: BorderSide(color: Colors.white.withOpacity(0.3)),
                           onChanged: provider.isBusy ? null : (val) {
@@ -340,13 +340,13 @@ class _RemindersManagementState extends State<RemindersManagement> {
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           gradient: const LinearGradient(
-            colors: [Color(0xFF2DD4BF), Color(0xFF0EA5E9)],
+            colors: [Color(0xFFFED7B8), Color(0xFF677DAA)],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
           boxShadow: [
             BoxShadow(
-              color: const Color(0xFF2DD4BF).withOpacity(0.3),
+              color: const Color(0xFFFED7B8).withOpacity(0.3),
               blurRadius: 12,
               offset: const Offset(0, 4),
             ),
@@ -370,9 +370,9 @@ class _RemindersManagementState extends State<RemindersManagement> {
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 24),
           decoration: BoxDecoration(
-            color: const Color(0xFF121B2A),
+            color: const Color(0xFF0A1F30),
             borderRadius: BorderRadius.circular(24),
-            border: Border.all(color: const Color(0xFF2DD4BF).withOpacity(0.3)),
+            border: Border.all(color: const Color(0xFFFED7B8).withOpacity(0.3)),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withOpacity(0.5),
@@ -385,7 +385,7 @@ class _RemindersManagementState extends State<RemindersManagement> {
             mainAxisSize: MainAxisSize.min,
             children: [
               const CircularProgressIndicator(
-                color: Color(0xFF2DD4BF),
+                color: Color(0xFFFED7B8),
                 strokeWidth: 3,
               ),
               const SizedBox(height: 20),

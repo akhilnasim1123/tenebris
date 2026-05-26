@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:wallet_dot/providers/app_provider.dart';
 import 'package:wallet_dot/widgets/Home.dart';
 import 'package:wallet_dot/widgets/Signup.dart';
+import 'package:wallet_dot/widgets/common/GradientScaffold.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -52,10 +53,8 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<AppProvider>(context);
-    final size = MediaQuery.of(context).size;
 
-    return Scaffold(
-      backgroundColor: const Color(0xFF080C14),
+    return GradientScaffold(
       body: Stack(
         children: [
           // Background ambient glows
@@ -67,7 +66,7 @@ class _LoginState extends State<Login> {
               height: 320,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: const Color(0xFF2DD4BF).withOpacity(0.04),
+                color: const Color(0xFFFED7B8).withOpacity(0.04),
               ),
               child: BackdropFilter(
                 filter: ImageFilter.blur(sigmaX: 90, sigmaY: 90),
@@ -83,7 +82,7 @@ class _LoginState extends State<Login> {
               height: 320,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: const Color(0xFF0EA5E9).withOpacity(0.03),
+                color: const Color(0xFF677DAA).withOpacity(0.03),
               ),
               child: BackdropFilter(
                 filter: ImageFilter.blur(sigmaX: 90, sigmaY: 90),
@@ -122,7 +121,7 @@ class _LoginState extends State<Login> {
                             style: GoogleFonts.plusJakartaSans(
                               fontSize: 36,
                               fontWeight: FontWeight.w800,
-                              color: const Color(0xFF2DD4BF),
+                              color: const Color(0xFFFED7B8),
                               letterSpacing: -0.5,
                             ),
                           ),
@@ -133,7 +132,7 @@ class _LoginState extends State<Login> {
                         'Access your dashboard to manage assets',
                         textAlign: TextAlign.center,
                         style: GoogleFonts.plusJakartaSans(
-                          color: const Color(0xFF94A3B8),
+                          color: const Color(0xFF677DAA),
                           fontSize: 14,
                         ),
                       ),
@@ -147,10 +146,10 @@ class _LoginState extends State<Login> {
                           child: Container(
                             padding: const EdgeInsets.all(28.0),
                             decoration: BoxDecoration(
-                              color: const Color(0xFF121B2A).withOpacity(0.65),
+                              color: const Color(0xFF0A1F30).withOpacity(0.65),
                               borderRadius: BorderRadius.circular(24),
                               border: Border.all(
-                                color: const Color(0xFF2DD4BF).withOpacity(0.12),
+                                color: const Color(0xFFFED7B8).withOpacity(0.12),
                                 width: 1.0,
                               ),
                             ),
@@ -190,7 +189,7 @@ class _LoginState extends State<Login> {
                                  Text(
                                    'USERNAME',
                                    style: GoogleFonts.plusJakartaSans(
-                                     color: const Color(0xFF2DD4BF),
+                                     color: const Color(0xFFFED7B8),
                                      fontSize: 11,
                                      fontWeight: FontWeight.bold,
                                      letterSpacing: 1.5,
@@ -204,10 +203,10 @@ class _LoginState extends State<Login> {
                                      hintText: 'Enter your username',
                                      hintStyle: GoogleFonts.plusJakartaSans(color: Colors.white.withOpacity(0.18)),
                                      filled: true,
-                                     fillColor: const Color(0xFF0A0E17),
+                                     fillColor: const Color(0xFF02101C),
                                      prefixIcon: const Icon(Icons.person_outline_rounded),
                                      prefixIconColor: WidgetStateColor.resolveWith((states) {
-                                       if (states.contains(WidgetState.focused)) return const Color(0xFF2DD4BF);
+                                       if (states.contains(WidgetState.focused)) return const Color(0xFFFED7B8);
                                        return Colors.white.withOpacity(0.3);
                                      }),
                                      contentPadding: const EdgeInsets.symmetric(horizontal: 18, vertical: 18),
@@ -221,7 +220,7 @@ class _LoginState extends State<Login> {
                                      ),
                                      focusedBorder: OutlineInputBorder(
                                        borderRadius: BorderRadius.circular(16),
-                                       borderSide: const BorderSide(color: Color(0xFF2DD4BF), width: 1.2),
+                                       borderSide: const BorderSide(color: Color(0xFFFED7B8), width: 1.2),
                                      ),
                                    ),
                                    validator: (value) {
@@ -237,7 +236,7 @@ class _LoginState extends State<Login> {
                                  Text(
                                    'PASSWORD',
                                    style: GoogleFonts.plusJakartaSans(
-                                     color: const Color(0xFF2DD4BF),
+                                     color: const Color(0xFFFED7B8),
                                      fontSize: 11,
                                      fontWeight: FontWeight.bold,
                                      letterSpacing: 1.5,
@@ -252,10 +251,10 @@ class _LoginState extends State<Login> {
                                      hintText: 'Enter your password',
                                      hintStyle: GoogleFonts.plusJakartaSans(color: Colors.white.withOpacity(0.18)),
                                      filled: true,
-                                     fillColor: const Color(0xFF0A0E17),
+                                     fillColor: const Color(0xFF02101C),
                                      prefixIcon: const Icon(Icons.lock_outline_rounded),
                                      prefixIconColor: WidgetStateColor.resolveWith((states) {
-                                       if (states.contains(WidgetState.focused)) return const Color(0xFF2DD4BF);
+                                       if (states.contains(WidgetState.focused)) return const Color(0xFFFED7B8);
                                        return Colors.white.withOpacity(0.3);
                                      }),
                                      contentPadding: const EdgeInsets.symmetric(horizontal: 18, vertical: 18),
@@ -269,7 +268,7 @@ class _LoginState extends State<Login> {
                                      ),
                                      focusedBorder: OutlineInputBorder(
                                        borderRadius: BorderRadius.circular(16),
-                                       borderSide: const BorderSide(color: Color(0xFF2DD4BF), width: 1.2),
+                                       borderSide: const BorderSide(color: Color(0xFFFED7B8), width: 1.2),
                                      ),
                                    ),
                                    validator: (value) {
@@ -311,7 +310,7 @@ class _LoginState extends State<Login> {
                             child: Text(
                               'Sign Up',
                               style: GoogleFonts.plusJakartaSans(
-                                color: const Color(0xFF2DD4BF),
+                                color: const Color(0xFFFED7B8),
                                 fontWeight: FontWeight.bold,
                                 decoration: TextDecoration.underline,
                               ),
@@ -361,13 +360,13 @@ class _InteractiveLoginButtonState extends State<_InteractiveLoginButton> {
             gradient: LinearGradient(
               colors: widget.isBusy
                   ? [Colors.grey.withOpacity(0.5), Colors.grey.withOpacity(0.3)]
-                  : [const Color(0xFF2DD4BF), const Color(0xFF0EA5E9)],
+                  : [const Color(0xFFFED7B8), const Color(0xFF677DAA)],
             ),
             borderRadius: BorderRadius.circular(16),
             boxShadow: [
               if (!widget.isBusy)
                 BoxShadow(
-                  color: const Color(0xFF2DD4BF).withOpacity(0.25),
+                  color: const Color(0xFFFED7B8).withOpacity(0.25),
                   blurRadius: 15,
                   offset: const Offset(0, 5),
                 ),

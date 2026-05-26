@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_dot/providers/app_provider.dart';
 import 'package:wallet_dot/widgets/common/ConfirmationDialog.dart';
-
+import 'package:wallet_dot/widgets/common/GradientScaffold.dart';
 
 class AddExpense extends StatefulWidget {
   const AddExpense({super.key});
@@ -19,315 +19,514 @@ class _AddExpenseState extends State<AddExpense> {
   String _type = 'expense';
   String _paymentMethod = 'account';
   bool _excludeFromBalance = false;
-  
+
   final List<String> _categories = [
-    'Food', 'Travel', 'Shopping', 'Bills', 'Entertainment', 'Health', 'Income', 'Other'
+    'Food',
+    'Travel',
+    'Shopping',
+    'Bills',
+    'Entertainment',
+    'Health',
+    'Income',
+    'Other',
   ];
 
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<AppProvider>(context);
-    return Scaffold(
-      backgroundColor: const Color(0xFF080C14),
+    return GradientScaffold(
       appBar: AppBar(
-        title: Text('Add Record', style: GoogleFonts.plusJakartaSans(fontWeight: FontWeight.w600)),
+        title: Text(
+          'Add Record',
+          style: GoogleFonts.plusJakartaSans(fontWeight: FontWeight.w600),
+        ),
         backgroundColor: Colors.transparent,
         elevation: 0,
         iconTheme: const IconThemeData(color: Colors.white),
       ),
-      body: Stack(
-        children: [
-          SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Type Switcher
-                  Container(
-                    padding: const EdgeInsets.all(6),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFF121B2A),
-                      borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: Colors.white.withOpacity(0.05)),
-                    ),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: GestureDetector(
-                            onTap: () {
-                              setState(() { _type = 'expense'; });
-                            },
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(vertical: 12),
-                              decoration: BoxDecoration(
-                                color: _type == 'expense' ? Colors.redAccent.withOpacity(0.15) : Colors.transparent,
-                                borderRadius: BorderRadius.circular(16),
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(Icons.north_east, color: _type == 'expense' ? Colors.redAccent : Colors.grey, size: 16),
-                                  const SizedBox(width: 8),
-                                  Text(
-                                    'Expense',
-                                    style: GoogleFonts.plusJakartaSans(
-                                      color: _type == 'expense' ? Colors.redAccent : Colors.grey,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          child: GestureDetector(
-                            onTap: () {
-                              setState(() { _type = 'income'; _category = 'Income'; });
-                            },
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(vertical: 12),
-                              decoration: BoxDecoration(
-                                color: _type == 'income' ? Colors.greenAccent.withOpacity(0.15) : Colors.transparent,
-                                borderRadius: BorderRadius.circular(16),
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(Icons.south_west, color: _type == 'income' ? Colors.greenAccent : Colors.grey, size: 16),
-                                  const SizedBox(width: 8),
-                                  Text(
-                                    'Income',
-                                    style: GoogleFonts.plusJakartaSans(
-                                      color: _type == 'income' ? Colors.greenAccent : Colors.grey,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 30),
-
-                  // Title Field
-                  Text('Title / Description', style: GoogleFonts.plusJakartaSans(color: Colors.grey, fontSize: 13)),
-                  const SizedBox(height: 8),
-                  TextField(
-                    controller: _titleController,
-                    style: GoogleFonts.plusJakartaSans(color: Colors.white, fontSize: 18),
-                    decoration: InputDecoration(
-                      hintText: 'e.g., Grocery Shopping',
-                      hintStyle: GoogleFonts.plusJakartaSans(color: Colors.white.withOpacity(0.2)),
-                      filled: true,
-                      fillColor: const Color(0xFF121B2A),
-                      contentPadding: const EdgeInsets.all(20),
-                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(20), borderSide: BorderSide.none),
-                      enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(20), borderSide: BorderSide(color: Colors.white.withOpacity(0.05))),
-                      focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(20), borderSide: const BorderSide(color: Color(0xFF2DD4BF))),
-                    ),
-                  ),
-                  const SizedBox(height: 24),
-
-                  // Amount Field
-                  Text('Amount', style: GoogleFonts.plusJakartaSans(color: Colors.grey, fontSize: 13)),
-                  const SizedBox(height: 8),
-                  TextField(
-                    controller: _amountController,
-                    keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                    style: GoogleFonts.plusJakartaSans(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
-                    decoration: InputDecoration(
-                      hintText: '0.00',
-                      hintStyle: GoogleFonts.plusJakartaSans(color: Colors.white.withOpacity(0.2), fontWeight: FontWeight.bold),
-                      prefixIcon: const Icon(Icons.currency_rupee, color: Colors.grey),
-                      filled: true,
-                      fillColor: const Color(0xFF121B2A),
-                      contentPadding: const EdgeInsets.all(20),
-                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(20), borderSide: BorderSide.none),
-                      enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(20), borderSide: BorderSide(color: Colors.white.withOpacity(0.05))),
-                      focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(20), borderSide: const BorderSide(color: Color(0xFF2DD4BF))),
-                    ),
-                  ),
-                  const SizedBox(height: 24),
-
-                  // Category Selector
-                  if (_type == 'expense') ...[
-                    Text('Category', style: GoogleFonts.plusJakartaSans(color: Colors.grey, fontSize: 13)),
-                    const SizedBox(height: 8),
+      body: SafeArea(
+        child: Stack(
+          children: [
+            SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 24.0,
+                  vertical: 10,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Type Switcher
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                      padding: const EdgeInsets.all(6),
                       decoration: BoxDecoration(
-                        color: const Color(0xFF121B2A),
+                        color: const Color(0xFF0A1F30),
                         borderRadius: BorderRadius.circular(20),
-                        border: Border.all(color: Colors.white.withOpacity(0.05)),
-                      ),
-                      child: DropdownButtonHideUnderline(
-                        child: DropdownButton<String>(
-                          value: _category == 'Income' ? 'Food' : _category,
-                          isExpanded: true,
-                          dropdownColor: const Color(0xFF121B2A),
-                          icon: const Icon(Icons.arrow_drop_down, color: Colors.grey),
-                          items: _categories.where((c) => c != 'Income').map((String category) {
-                            return DropdownMenuItem<String>(
-                              value: category,
-                              child: Text(category, style: GoogleFonts.plusJakartaSans(color: Colors.white, fontSize: 16)),
-                            );
-                          }).toList(),
-                          onChanged: (String? newValue) {
-                            setState(() { _category = newValue!; });
-                          },
+                        border: Border.all(
+                          color: Colors.white.withOpacity(0.05),
                         ),
-                      ),
-                    ),
-                  ],
-                  const SizedBox(height: 24),
-                  // Payment Method Selector
-                  Text('Payment Method', style: GoogleFonts.plusJakartaSans(color: Colors.grey, fontSize: 13)),
-                  const SizedBox(height: 8),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFF121B2A),
-                      borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: Colors.white.withOpacity(0.05)),
-                    ),
-                    child: DropdownButtonHideUnderline(
-                      child: DropdownButton<String>(
-                        value: _paymentMethod,
-                        isExpanded: true,
-                        dropdownColor: const Color(0xFF121B2A),
-                        icon: const Icon(Icons.arrow_drop_down, color: Colors.grey),
-                        items: const [
-                          DropdownMenuItem(value: 'account', child: Text('Account Balance')),
-                          DropdownMenuItem(value: 'in_hand', child: Text('In Hand')),
-                          DropdownMenuItem(value: 'deposit', child: Text('Deposit')),
-                          DropdownMenuItem(value: 'credit', child: Text('Credit (Debt)')),
-                        ],
-                        onChanged: (String? newValue) {
-                          setState(() { _paymentMethod = newValue!; });
-                        },
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 24),
-
-                  // Exclude Toggle
-                  GestureDetector(
-                    onTap: () => setState(() => _excludeFromBalance = !_excludeFromBalance),
-                    child: Container(
-                      padding: const EdgeInsets.all(20),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFF121B2A),
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border.all(color: _excludeFromBalance ? const Color(0xFF2DD4BF).withOpacity(0.3) : Colors.white.withOpacity(0.05)),
                       ),
                       child: Row(
                         children: [
-                          Icon(
-                            _excludeFromBalance ? Icons.visibility_off_outlined : Icons.visibility_outlined,
-                            color: _excludeFromBalance ? const Color(0xFF2DD4BF) : Colors.grey,
-                          ),
-                          const SizedBox(width: 12),
                           Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Affect Balance Calculation?',
-                                  style: GoogleFonts.plusJakartaSans(color: Colors.white, fontWeight: FontWeight.w600),
+                            child: GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  _type = 'expense';
+                                });
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 12,
                                 ),
-                                Text(
-                                  _excludeFromBalance ? 'Record only (Doesn\'t change balance)' : 'Normal (Updates the balance)',
-                                  style: GoogleFonts.plusJakartaSans(color: Colors.grey, fontSize: 12),
+                                decoration: BoxDecoration(
+                                  color:
+                                      _type == 'expense'
+                                          ? Colors.redAccent.withOpacity(0.15)
+                                          : Colors.transparent,
+                                  borderRadius: BorderRadius.circular(16),
                                 ),
-                              ],
-                            ),
-                          ),
-                          Switch(
-                            value: !_excludeFromBalance,
-                            onChanged: (val) => setState(() => _excludeFromBalance = !val),
-                            activeColor: const Color(0xFF2DD4BF),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 40),
-
-                  // Save Button
-                  GestureDetector(
-                    onTap: provider.isBusy ? null : () async {
-                      if (_titleController.text.isNotEmpty && _amountController.text.isNotEmpty) {
-                        final amount = double.tryParse(_amountController.text) ?? 0.0;
-                        ConfirmationDialog.show(
-                          context,
-                          title: 'Confirm Record',
-                          message: 'Add ${_type} of ₹$amount for ${_titleController.text}?',
-                          onConfirm: () async {
-                            final date = DateTime.now().toIso8601String();
-                            await provider.addTransaction(
-                              _titleController.text, 
-                              amount, 
-                              _category, 
-                              date, 
-                              _type,
-                              _paymentMethod,
-                              exclude: _excludeFromBalance
-                            );
-                            if (context.mounted) Navigator.pop(context);
-                          },
-                        );
-                      }
-                    },
-                    child: Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.symmetric(vertical: 20),
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: provider.isBusy 
-                            ? [Colors.grey, Colors.grey] 
-                            : [const Color(0xFF2DD4BF), const Color(0xFF0EA5E9)],
-                        ),
-                        borderRadius: BorderRadius.circular(20),
-                        boxShadow: [
-                          if (!provider.isBusy)
-                            BoxShadow(
-                              color: const Color(0xFF2DD4BF).withOpacity(0.3),
-                              blurRadius: 15,
-                              offset: const Offset(0, 8),
-                            ),
-                        ],
-                      ),
-                      child: Center(
-                        child: provider.isBusy
-                          ? const SizedBox(
-                              height: 20,
-                              width: 20,
-                              child: CircularProgressIndicator(color: Colors.black, strokeWidth: 2),
-                            )
-                          : Text(
-                              'Save Record',
-                              style: GoogleFonts.plusJakartaSans(
-                                color: Colors.black,
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.north_east,
+                                      color:
+                                          _type == 'expense'
+                                              ? Colors.redAccent
+                                              : Colors.grey,
+                                      size: 16,
+                                    ),
+                                    const SizedBox(width: 8),
+                                    Text(
+                                      'Expense',
+                                      style: GoogleFonts.plusJakartaSans(
+                                        color:
+                                            _type == 'expense'
+                                                ? Colors.redAccent
+                                                : Colors.grey,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
+                          ),
+                          Expanded(
+                            child: GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  _type = 'income';
+                                  _category = 'Income';
+                                });
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 12,
+                                ),
+                                decoration: BoxDecoration(
+                                  color:
+                                      _type == 'income'
+                                          ? Colors.greenAccent.withOpacity(0.15)
+                                          : Colors.transparent,
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.south_west,
+                                      color:
+                                          _type == 'income'
+                                              ? Colors.greenAccent
+                                              : Colors.grey,
+                                      size: 16,
+                                    ),
+                                    const SizedBox(width: 8),
+                                    Text(
+                                      'Income',
+                                      style: GoogleFonts.plusJakartaSans(
+                                        color:
+                                            _type == 'income'
+                                                ? Colors.greenAccent
+                                                : Colors.grey,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 30),
-                ],
+                    const SizedBox(height: 30),
+
+                    // Title Field
+                    Text(
+                      'Title / Description',
+                      style: GoogleFonts.plusJakartaSans(
+                        color: Colors.grey,
+                        fontSize: 13,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    TextField(
+                      controller: _titleController,
+                      style: GoogleFonts.plusJakartaSans(
+                        color: Colors.white,
+                        fontSize: 18,
+                      ),
+                      decoration: InputDecoration(
+                        hintText: 'e.g., Grocery Shopping',
+                        hintStyle: GoogleFonts.plusJakartaSans(
+                          color: Colors.white.withOpacity(0.2),
+                        ),
+                        filled: true,
+                        fillColor: const Color(0xFF0A1F30),
+                        contentPadding: const EdgeInsets.all(20),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20),
+                          borderSide: BorderSide.none,
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20),
+                          borderSide: BorderSide(
+                            color: Colors.white.withOpacity(0.05),
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20),
+                          borderSide: const BorderSide(
+                            color: Color(0xFFFED7B8),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+
+                    // Amount Field
+                    Text(
+                      'Amount',
+                      style: GoogleFonts.plusJakartaSans(
+                        color: Colors.grey,
+                        fontSize: 13,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    TextField(
+                      controller: _amountController,
+                      keyboardType: const TextInputType.numberWithOptions(
+                        decimal: true,
+                      ),
+                      style: GoogleFonts.plusJakartaSans(
+                        color: Colors.white,
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      decoration: InputDecoration(
+                        hintText: '0.00',
+                        hintStyle: GoogleFonts.plusJakartaSans(
+                          color: Colors.white.withOpacity(0.2),
+                          fontWeight: FontWeight.bold,
+                        ),
+                        prefixIcon: const Icon(
+                          Icons.currency_rupee,
+                          color: Colors.grey,
+                        ),
+                        filled: true,
+                        fillColor: const Color(0xFF0A1F30),
+                        contentPadding: const EdgeInsets.all(20),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20),
+                          borderSide: BorderSide.none,
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20),
+                          borderSide: BorderSide(
+                            color: Colors.white.withOpacity(0.05),
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20),
+                          borderSide: const BorderSide(
+                            color: Color(0xFFFED7B8),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+
+                    // Category Selector
+                    if (_type == 'expense') ...[
+                      Text(
+                        'Category',
+                        style: GoogleFonts.plusJakartaSans(
+                          color: Colors.grey,
+                          fontSize: 13,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 20,
+                          vertical: 5,
+                        ),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF0A1F30),
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(
+                            color: Colors.white.withOpacity(0.05),
+                          ),
+                        ),
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButton<String>(
+                            value: _category == 'Income' ? 'Food' : _category,
+                            isExpanded: true,
+                            dropdownColor: const Color(0xFF0A1F30),
+                            icon: const Icon(
+                              Icons.arrow_drop_down,
+                              color: Colors.grey,
+                            ),
+                            items:
+                                _categories.where((c) => c != 'Income').map((
+                                  String category,
+                                ) {
+                                  return DropdownMenuItem<String>(
+                                    value: category,
+                                    child: Text(
+                                      category,
+                                      style: GoogleFonts.plusJakartaSans(
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                  );
+                                }).toList(),
+                            onChanged: (String? newValue) {
+                              setState(() {
+                                _category = newValue!;
+                              });
+                            },
+                          ),
+                        ),
+                      ),
+                    ],
+                    const SizedBox(height: 24),
+                    // Payment Method Selector
+                    Text(
+                      'Payment Method',
+                      style: GoogleFonts.plusJakartaSans(
+                        color: Colors.grey,
+                        fontSize: 13,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 20,
+                        vertical: 5,
+                      ),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF0A1F30),
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(
+                          color: Colors.white.withOpacity(0.05),
+                        ),
+                      ),
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton<String>(
+                          value: _paymentMethod,
+                          isExpanded: true,
+                          dropdownColor: const Color(0xFF0A1F30),
+                          icon: const Icon(
+                            Icons.arrow_drop_down,
+                            color: Colors.grey,
+                          ),
+                          items: const [
+                            DropdownMenuItem(
+                              value: 'account',
+                              child: Text('Account Balance'),
+                            ),
+                            DropdownMenuItem(
+                              value: 'in_hand',
+                              child: Text('In Hand'),
+                            ),
+                            DropdownMenuItem(
+                              value: 'deposit',
+                              child: Text('Deposit'),
+                            ),
+                            DropdownMenuItem(
+                              value: 'credit',
+                              child: Text('Credit (Debt)'),
+                            ),
+                          ],
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              _paymentMethod = newValue!;
+                            });
+                          },
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+
+                    // Exclude Toggle
+                    GestureDetector(
+                      onTap:
+                          () => setState(
+                            () => _excludeFromBalance = !_excludeFromBalance,
+                          ),
+                      child: Container(
+                        padding: const EdgeInsets.all(20),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF0A1F30),
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(
+                            color:
+                                _excludeFromBalance
+                                    ? const Color(0xFFFED7B8).withOpacity(0.3)
+                                    : Colors.white.withOpacity(0.05),
+                          ),
+                        ),
+                        child: Row(
+                          children: [
+                            Icon(
+                              _excludeFromBalance
+                                  ? Icons.visibility_off_outlined
+                                  : Icons.visibility_outlined,
+                              color:
+                                  _excludeFromBalance
+                                      ? const Color(0xFFFED7B8)
+                                      : Colors.grey,
+                            ),
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Affect Balance Calculation?',
+                                    style: GoogleFonts.plusJakartaSans(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                  Text(
+                                    _excludeFromBalance
+                                        ? 'Record only (Doesn\'t change balance)'
+                                        : 'Normal (Updates the balance)',
+                                    style: GoogleFonts.plusJakartaSans(
+                                      color: Colors.grey,
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Switch(
+                              value: !_excludeFromBalance,
+                              onChanged:
+                                  (val) => setState(
+                                    () => _excludeFromBalance = !val,
+                                  ),
+                              activeColor: const Color(0xFFFED7B8),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 40),
+
+                    // Save Button
+                    GestureDetector(
+                      onTap:
+                          provider.isBusy
+                              ? null
+                              : () async {
+                                if (_titleController.text.isNotEmpty &&
+                                    _amountController.text.isNotEmpty) {
+                                  final amount =
+                                      double.tryParse(_amountController.text) ??
+                                      0.0;
+                                  ConfirmationDialog.show(
+                                    context,
+                                    title: 'Confirm Record',
+                                    message:
+                                        'Add ${_type} of ₹$amount for ${_titleController.text}?',
+                                    onConfirm: () async {
+                                      final date =
+                                          DateTime.now().toIso8601String();
+                                      await provider.addTransaction(
+                                        _titleController.text,
+                                        amount,
+                                        _category,
+                                        date,
+                                        _type,
+                                        _paymentMethod,
+                                        exclude: _excludeFromBalance,
+                                      );
+                                      if (context.mounted)
+                                        Navigator.pop(context);
+                                    },
+                                  );
+                                }
+                              },
+                      child: Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.symmetric(vertical: 20),
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors:
+                                provider.isBusy
+                                    ? [Colors.grey, Colors.grey]
+                                    : [
+                                      const Color(0xFFFED7B8),
+                                      const Color(0xFF677DAA),
+                                    ],
+                          ),
+                          borderRadius: BorderRadius.circular(20),
+                          boxShadow: [
+                            if (!provider.isBusy)
+                              BoxShadow(
+                                color: const Color(0xFFFED7B8).withOpacity(0.3),
+                                blurRadius: 15,
+                                offset: const Offset(0, 8),
+                              ),
+                          ],
+                        ),
+                        child: Center(
+                          child:
+                              provider.isBusy
+                                  ? const SizedBox(
+                                    height: 20,
+                                    width: 20,
+                                    child: CircularProgressIndicator(
+                                      color: Colors.black,
+                                      strokeWidth: 2,
+                                    ),
+                                  )
+                                  : Text(
+                                    'Save Record',
+                                    style: GoogleFonts.plusJakartaSans(
+                                      color: Colors.black,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 30),
+                  ],
+                ),
               ),
             ),
-          ),
-          if (provider.isBusy)
-            _buildLoadingOverlay(),
-        ],
+            if (provider.isBusy) _buildLoadingOverlay(),
+          ],
+        ),
       ),
     );
   }
@@ -339,9 +538,9 @@ class _AddExpenseState extends State<AddExpense> {
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 24),
           decoration: BoxDecoration(
-            color: const Color(0xFF121B2A),
+            color: const Color(0xFF0A1F30),
             borderRadius: BorderRadius.circular(24),
-            border: Border.all(color: const Color(0xFF2DD4BF).withOpacity(0.3)),
+            border: Border.all(color: const Color(0xFFFED7B8).withOpacity(0.3)),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withOpacity(0.5),
@@ -354,7 +553,7 @@ class _AddExpenseState extends State<AddExpense> {
             mainAxisSize: MainAxisSize.min,
             children: [
               const CircularProgressIndicator(
-                color: Color(0xFF2DD4BF),
+                color: Color(0xFFFED7B8),
                 strokeWidth: 3,
               ),
               const SizedBox(height: 20),
